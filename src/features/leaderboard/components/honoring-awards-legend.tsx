@@ -35,13 +35,13 @@ export const HonoringAwardsLegend = ({
         </div>
         <div
           data-top={top}
-          className={cn("text-base text-foreground font-bold mb-2")}
+          className={cn("text-base text-foreground font-bold")}
         >
           {name}
         </div>
         <div
           data-top={top}
-          className={cn("text-lg text-foreground font-bold mb-2", {
+          className={cn("text-lg text-foreground font-bold mb-4", {
             "text-top-1": top === "1",
             "text-top-2": top === "2",
             "text-top-3": top === "3",
