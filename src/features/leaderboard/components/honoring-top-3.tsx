@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import Container, { ContainerProps } from "../layout/container";
 import { HonoringAwardsLegend } from "./honoring-awards-legend";
 import { HonoringAwardsPodium } from "./honoring-awards-podium";
-import { HonoringRank } from "./honoring-rank";
 import HonoringRankReasonable from "./honoring-rank-reasonable";
 
 export interface HonoringTop3Props extends ContainerProps {}
@@ -12,7 +11,7 @@ export const HonoringTop3 = ({ className, ...props }: HonoringTop3Props) => {
     <Container
       {...props}
       className={cn(
-        "flex gap-24 justify-around [&>*]:w-full pt-6 pb-20",
+        "flex gap-16 justify-around [&>*]:w-full pt-6 pb-20",
         className
       )}
     >
