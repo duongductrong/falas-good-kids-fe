@@ -1,0 +1,21 @@
+<!-- normal-member-flag.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 80" role="img" aria-label="Shield pennant for normal member">
+  <style>
+    :root {
+      --outer: #1a2140;   /* outer shield */
+      --inner: #2a315f;   /* inner panel */
+      --emblem: #9db2d0;  /* circle emblem */
+    }
+  </style>
+
+  <!-- Outer shield -->
+  <path fill="var(--outer)"
+        d="M12 6a6 6 0 0 1 6-6h28a6 6 0 0 1 6 6v46L32 74 12 52V6Z"/>
+
+  <!-- Inner panel -->
+  <path fill="var(--inner)"
+        d="M18 10a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v38L32 66 18 48V10Z"/>
+
+  <!-- Circle emblem -->
+  <circle cx="32" cy="36" r="8" fill="var(--emblem)" />
+</svg>
