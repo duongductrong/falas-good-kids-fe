@@ -31,8 +31,9 @@ export const HonoringAwardsPodium = ({
       <div className="relative w-full h-[150px] transform-3d perspective-midrange">
         <div
           className={cn(
-            "absolute top-0 left-0 w-full h-full bg-primary/20",
-            "origin-top -rotate-x-[120deg]"
+            "absolute top-0 left-0 w-full h-full",
+            "origin-top -rotate-x-[120deg]",
+            "bg-gradient-to-b from-primary/80 via-primary/30 to-primary/10"
           )}
         />
         <div
