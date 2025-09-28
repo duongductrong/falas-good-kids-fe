@@ -2,13 +2,13 @@ import { cn } from "@/lib/utils";
 import { ComponentProps, ReactNode } from "react";
 
 export interface HonoringAwardsPodiumProps extends ComponentProps<"div"> {
-  top: ReactNode;
+  achievement: ReactNode;
 }
 
 export const HonoringAwardsPodium = ({
   className,
   children,
-  top,
+  achievement,
   ...props
 }: HonoringAwardsPodiumProps) => {
   return (
@@ -33,17 +33,19 @@ export const HonoringAwardsPodium = ({
           className={cn(
             "absolute top-0 left-0 w-full h-full",
             "origin-top -rotate-x-[120deg]",
-            "bg-gradient-to-b from-primary/80 via-primary/30 to-primary/10"
+            // "bg-gradient-to-b from-primary/80 via-primary/30 to-primary/10"
+            "bg-gradient-to-b from-primary/10 via-primary/5 to-primary/5"
           )}
         />
         <div
           className={cn(
             "w-full h-full",
             "border-x border-t border-border/50 flex items-center justify-center",
-            "bg-gradient-to-b from-primary/50 to-transparent"
+            // "bg-gradient-to-b from-primary/50 to-transparent"
+            "bg-gradient-to-b from-primary/5 to-transparent"
           )}
         >
-          {top}
+          {achievement}
         </div>
       </div>
     </div>

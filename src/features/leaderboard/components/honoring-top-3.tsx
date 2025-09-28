@@ -16,7 +16,7 @@ export const HonoringTop3 = ({ className, ...props }: HonoringTop3Props) => {
       )}
     >
       <HonoringAwardsPodium
-        top={<HonoringRankReasonable fill="#0255F5" ranking={2} />}
+        achievement={<HonoringRankReasonable fill="#0255F5" ranking={2} />}
         className="translate-y-10"
       >
         <HonoringAwardsLegend
@@ -27,7 +27,46 @@ export const HonoringTop3 = ({ className, ...props }: HonoringTop3Props) => {
         />
       </HonoringAwardsPodium>
       <HonoringAwardsPodium
-        top={<HonoringRankReasonable fill="#E63946" ranking={1} />}
+        achievement={
+          <>
+            <HonoringRankReasonable fill="#E63946" ranking={1} />
+
+            {/* <div
+              className={cn(
+                "absolute top-8 opacity-0",
+                "right-4 flex items-center gap-2 *:cursor-pointer",
+                "group-hover:opacity-100 group-hover:top-4",
+                "transition-all duration-300"
+              )}
+            >
+              <Tooltip>
+                <TooltipContent>See profile</TooltipContent>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="rounded-full"
+                  >
+                    <User className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+              </Tooltip>
+              <Tooltip>
+                <TooltipContent>Upvote</TooltipContent>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="rounded-full"
+                  >
+                    <ArrowBigUpDash className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+              </Tooltip>
+            </div> */}
+          </>
+        }
+        className="group"
       >
         <HonoringAwardsLegend
           name="Trân Nguyễn"
@@ -37,7 +76,7 @@ export const HonoringTop3 = ({ className, ...props }: HonoringTop3Props) => {
         />
       </HonoringAwardsPodium>
       <HonoringAwardsPodium
-        top={<HonoringRankReasonable fill="#00AE01" ranking={3} />}
+        achievement={<HonoringRankReasonable fill="#00AE01" ranking={3} />}
         className="translate-y-10"
       >
         <HonoringAwardsLegend

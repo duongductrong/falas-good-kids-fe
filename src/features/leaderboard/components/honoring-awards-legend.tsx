@@ -24,7 +24,8 @@ export const HonoringAwardsLegend = ({
     >
       <div className="flex flex-col gap-2 flex flex-col items-center">
         <div className="relative">
-          <div className="absolute inset-0 [background:linear-gradient(to_bottom,rgba(87,102,189,0.5)_0%,rgba(0,0,0,0.5)_100%)] rounded-lg" />
+          {/* [background:linear-gradient(to_bottom,rgba(87,102,189,0.5)_0%,rgba(0,0,0,0.5)_100%)] */}
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/15 to-transparent rounded-lg" />
           <HexAvatar
             avatarUrl={avatar}
             size={120}
@@ -47,7 +48,7 @@ export const HonoringAwardsLegend = ({
             "text-top-3": top === "3",
           })}
         >
-          Number #{top}
+          Top #{top}
         </div>
       </div>
     </div>

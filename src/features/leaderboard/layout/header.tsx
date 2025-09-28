@@ -1,9 +1,16 @@
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { CircleIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import { ComponentProps } from "react";
 import LeaderBoardSignal from "../assets/leaderboard-signal.svg";
 import Container from "./container";
-import { XIcon } from "lucide-react";
 
 export interface HeaderProps extends ComponentProps<"header"> {}
 
@@ -16,7 +23,7 @@ export const Header = ({ className, ...props }: HeaderProps) => {
       >
         <div className="flex items-center gap-2">
           <Image
-            src="/amanotes.png"
+            src="/assets/logo/amanotes.png"
             width={200}
             height={200}
             alt="Amanotes"
@@ -36,6 +43,25 @@ export const Header = ({ className, ...props }: HeaderProps) => {
             The top is updated every day. Try to do <br /> great things to get
             the top rank.
           </p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Tabs defaultValue="rankings">
+            <TabsList>
+              <TabsTrigger value="rankings">Monthly</TabsTrigger>
+              <TabsTrigger value="weekly">Weekly</TabsTrigger>
+              <TabsTrigger value="daily">Daily</TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <CircleIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>View the leaderboard.</TooltipContent>
+          </Tooltip>
         </div>
       </header>
     </Container>

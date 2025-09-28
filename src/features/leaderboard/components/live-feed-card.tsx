@@ -1,8 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { ArrowBigUpDash, User } from "lucide-react";
 import { ComponentProps } from "react";
-import { HonoringRank } from "./honoring-rank";
 import HonoringRankReasonable from "./honoring-rank-reasonable";
+import { TrayUpvote } from "./tray-upvote";
 
 export interface LiveFeedCardProps extends ComponentProps<"div"> {
   ranking: number;
@@ -13,6 +20,9 @@ export const LiveFeedCard = ({
   ranking,
   ...props
 }: LiveFeedCardProps) => {
+  const colors = ["#E63946", "#0255F5", "#00AE01"];
+  const defaultColor = "#222B53";
+
   return (
     <div
       {...props}
@@ -27,7 +37,63 @@ export const LiveFeedCard = ({
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
-        <HonoringRankReasonable ranking={ranking} fill="#222B53" />
+        <HonoringRankReasonable
+          ranking={ranking}
+          fill={colors?.[ranking - 1] || defaultColor}
+        />
+
+        <section className="flex items-center justify-between w-full">
+          <div className="flex flex-row flex-wrap items-center gap-12">
+            <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2">
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/leerob.png"
+                  alt="@leerob"
+                />
+                <AvatarFallback>LR</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage
+                  src="https://github.com/evilrabbit.png"
+                  alt="@evilrabbit"
+                />
+                <AvatarFallback>ER</AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 *:cursor-pointer">
+            <Tooltip>
+              <TooltipContent>See profile</TooltipContent>
+              <TooltipTrigger asChild>
+                <Button size="icon" variant="outline" className="rounded-full">
+                  <User className="size-5" />
+                </Button>
+              </TooltipTrigger>
+            </Tooltip>
+            <Tooltip>
+              <TooltipContent>Upvote</TooltipContent>
+              <TrayUpvote asChildTrigger>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="rounded-full"
+                  >
+                    <ArrowBigUpDash className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+              </TrayUpvote>
+            </Tooltip>
+          </div>
+        </section>
       </div>
     </div>
   );

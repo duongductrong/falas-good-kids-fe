@@ -4,16 +4,19 @@ import { VerticalBars } from "@/features/leaderboard/components/vertical-bars";
 export default function Home() {
   return (
     <BaseLayout className="relative">
-      <HonoringTop3 className="mb-10" />
-      <LiveFeed />
+      <main className="flex justify-center">
+        <div className="pl-16 pr-8 flex items-center justify-center">
+          <VerticalBars rotate="left" />
+        </div>
 
-      <div className="absolute top-1/2 right-[3.88vw] -translate-y-1/2">
-        <VerticalBars rotate="left" />
-      </div>
-
-      <div className="absolute top-1/2 left-[3.88vw] -translate-y-1/2">
-        <VerticalBars rotate="right" />
-      </div>
+        <div className="w-full">
+          <HonoringTop3 className="mb-10" />
+          <LiveFeed />
+        </div>
+        <div className="pr-16 pl-8 flex items-center justify-center">
+          <VerticalBars rotate="right" />
+        </div>
+      </main>
     </BaseLayout>
   );
 }

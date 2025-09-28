@@ -5,6 +5,7 @@ import Image from "next/image";
 import LeaderboardSignal2 from "../assets/leaderboard-signal-2.svg";
 import Container, { ContainerProps } from "../layout/container";
 import { LiveFeedCard } from "./live-feed-card";
+import { TrayLeaderboard } from "./tray-leaderboard";
 
 export interface LiveFeedProps extends ContainerProps {}
 
@@ -29,10 +30,12 @@ export const LiveFeed = ({ className, ...props }: LiveFeedProps) => {
         </div>
 
         <aside>
-          <Button size="sm">See more
-
-            <ArrowRightIcon className="size-4" />
-          </Button>
+          <TrayLeaderboard asChildTrigger>
+            <Button variant="ghost" size="sm">
+              See leaderboard
+              <ArrowRightIcon className="size-4" />
+            </Button>
+          </TrayLeaderboard>
         </aside>
       </section>
 
