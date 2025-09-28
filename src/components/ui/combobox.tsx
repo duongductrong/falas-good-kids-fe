@@ -1,0 +1,96 @@
+"use client";
+
+import { Check, ChevronsUpDown } from "lucide-react";
+import * as React from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useElementSize } from "@/hooks/use-element-size";
+import { cn } from "@/lib/utils";
+
+export interface ComboboxProps {
+  options?: {
+    value: string;
+    label: React.ReactNode;
+  }[];
+
+  placeholder?: string;
+}
+
+export function Combobox({ placeholder, options = [] }: ComboboxProps) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+
+  const [ref, { width }] = useElementSize();
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="whitespace-nowrap flex w-full"
+          ref={ref as React.Ref<HTMLButtonElement>}
+        >
+          <span
+            data-has-value={!!value}
+            className={cn("block line-clamp-1 w-full text-left truncate", "data-[has-value=false]:text-muted-foreground")}
+          >
+            {value
+              ? options.find((option) => option.value === value)?.label
+              : placeholder}
+          </span>
+          <ChevronsUpDown className="opacity-50 shrink-0 ml-auto" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        style={
+          {
+            "--radix-popover-trigger-width": width + "px",
+          } as React.CSSProperties
+        }
+        className="w-[var(--radix-popover-trigger-width)] truncate p-0 overflow-hidden"
+      >
+        <Command>
+          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {options.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue: string) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {framework.label}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}

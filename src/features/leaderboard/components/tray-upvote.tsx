@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
 import {
   Drawer,
   DrawerClose,
@@ -52,7 +53,51 @@ export const TrayUpvote = ({
             placeholder="Enterprise email (Optional)"
             className="w-full"
           />
-          <Select name="topic">
+          <Combobox
+            placeholder="Reason"
+            options={[
+              {
+                value: "learn_unlearn_relearn",
+                label: "Learn, unlearn, relearn",
+              },
+              {
+                value: "try_new_things",
+                label: "Try new things. Fail fast. Fail cheap.",
+              },
+              {
+                value: "create_value_progress",
+                label: "Create and value progress",
+              },
+              {
+                value: "do_what_you_say",
+                label: "Do what you say, say what you mean",
+              },
+              {
+                value: "take_action_produce_results",
+                label:
+                  "Constantly take action to produce results instead of waiting, hoping, and blaming",
+              },
+              {
+                value: "listen_give_feedforward",
+                label:
+                  "Listen genuinely and give constructive feedforward to the right people on time",
+              },
+              {
+                value: "data_informed_decisions",
+                label:
+                  "Make data-informed decisions and take actions based on customer's needs and feedback",
+              },
+              {
+                value: "experience_as_customers",
+                label: "Experience and play games as customers",
+              },
+              {
+                value: "deliver_wow",
+                label: "Deliver 'WOW' to users",
+              },
+            ]}
+          />
+          {/* <Select name="topic">
             <SelectTrigger className="w-full">
               <SelectValue
                 placeholder="Reason"
@@ -92,7 +137,7 @@ export const TrayUpvote = ({
                 Deliver &quot;WOW&quot; to users
               </SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
         </div>
         <DrawerFooter className="flex flex-row items-center gap-4 *:flex-1">
           <DrawerClose asChild>

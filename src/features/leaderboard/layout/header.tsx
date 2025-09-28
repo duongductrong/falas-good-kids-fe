@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
@@ -46,14 +45,6 @@ export const Header = ({ className, ...props }: HeaderProps) => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Tabs defaultValue="rankings">
-            <TabsList>
-              <TabsTrigger value="rankings">Monthly</TabsTrigger>
-              <TabsTrigger value="weekly">Weekly</TabsTrigger>
-              <TabsTrigger value="daily">Daily</TabsTrigger>
-            </TabsList>
-          </Tabs>
-
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon">

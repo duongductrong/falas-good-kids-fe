@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowBigUpDash } from "lucide-react";
+import { TrayUpvote } from "./tray-upvote";
 import { VoterAvatars, type Voter } from "./voter-avatars";
 
 export interface Player {
@@ -81,11 +82,11 @@ export const VoterRanking = ({
         />
       </div>
 
-      <div>
+      <TrayUpvote asChildTrigger>
         <Button variant="ghost" size="icon" rounded="full">
           <ArrowBigUpDash className="size-4" />
         </Button>
-      </div>
+      </TrayUpvote>
     </div>
   );
 };
