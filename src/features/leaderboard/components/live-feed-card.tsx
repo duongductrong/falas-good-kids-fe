@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { ArrowBigUpDash, User } from "lucide-react";
 import { ComponentProps } from "react";
 import HonoringRankReasonable from "./honoring-rank-reasonable";
+import TrayProfile from "./tray-profile";
 import { TrayUpvote } from "./tray-upvote";
 
 export interface LiveFeedCardProps extends ComponentProps<"div"> {
@@ -72,15 +73,21 @@ export const LiveFeedCard = ({
           <div className="flex items-center gap-2 *:cursor-pointer">
             <Tooltip>
               <TooltipContent>See profile</TooltipContent>
-              <TooltipTrigger asChild>
-                <Button size="icon" variant="outline" className="rounded-full">
-                  <User className="size-5" />
-                </Button>
-              </TooltipTrigger>
+              <TrayProfile>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="rounded-full"
+                  >
+                    <User className="size-5" />
+                  </Button>
+                </TooltipTrigger>
+              </TrayProfile>
             </Tooltip>
             <Tooltip>
               <TooltipContent>Upvote</TooltipContent>
-              <TrayUpvote asChildTrigger>
+              <TrayUpvote>
                 <TooltipTrigger asChild>
                   <Button
                     size="icon"

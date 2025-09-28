@@ -13,26 +13,14 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { PropsWithChildren } from "react";
 
-export interface TrayUpvoteProps extends PropsWithChildren {
-  asChildTrigger?: boolean;
-}
+export interface TrayUpvoteProps extends PropsWithChildren {}
 
-export const TrayUpvote = ({
-  children,
-  asChildTrigger = false,
-}: TrayUpvoteProps) => {
+export const TrayUpvote = ({ children }: TrayUpvoteProps) => {
   return (
     <Drawer variant="tray">
-      <DrawerTrigger asChild={asChildTrigger}>{children}</DrawerTrigger>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="">
         <DrawerHeader>
           <DrawerTitle>Upvote</DrawerTitle>
