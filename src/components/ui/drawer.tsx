@@ -4,9 +4,12 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
+import { XIcon } from "lucide-react";
+import { Button } from "./button";
 
 export interface DrawerContextType {
   variant?: "default" | "tray";
+  showCloseButton?: boolean;
 }
 
 const DrawerContext = React.createContext<DrawerContextType>(
@@ -25,10 +28,14 @@ export const useDrawerContext = () => {
 
 function Drawer({
   variant = "default",
+  showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root> &
-  Pick<DrawerContextType, "variant">) {
-  const values = React.useMemo(() => ({ variant }), [variant]);
+  Pick<DrawerContextType, "variant" | "showCloseButton">) {
+  const values = React.useMemo(
+    () => ({ variant, showCloseButton }),
+    [variant, showCloseButton]
+  );
 
   if (variant === "tray" && props.direction && props.direction !== "bottom") {
     throw new Error("Base tray variant must be used with bottom direction");
@@ -80,7 +87,7 @@ function DrawerContent({
   children,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
-  const { variant } = useDrawerContext();
+  const { variant, showCloseButton } = useDrawerContext();
 
   return (
     <DrawerPortal data-slot="drawer-portal">
@@ -94,13 +101,27 @@ function DrawerContent({
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
           "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
           "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
-          "data-[variant=tray]:max-w-xl data-[variant=tray]:w-full data-[variant=tray]:mx-auto data-[variant=tray]:mb-4 data-[variant=tray]:after:invisible data-[variant=tray]:border data-[variant=tray]:border-border data-[variant=tray]:rounded-md",
+          "data-[variant=tray]:max-w-xl data-[variant=tray]:w-full data-[variant=tray]:mx-auto data-[variant=tray]:mb-4 data-[variant=tray]:after:invisible data-[variant=tray]:border data-[variant=tray]:border-border data-[variant=tray]:rounded-lg",
           // "data-[variant=tray]:mb-10"
           className
         )}
         {...props}
       >
         <div className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+
+        {showCloseButton && (
+          <DrawerClose asChild>
+            <Button
+              className="absolute top-4 right-4 ring-offset-background"
+              variant="outline"
+              size="icon"
+              rounded="full"
+            >
+              <XIcon className="size-4" />
+              <span className="sr-only">Close</span>
+            </Button>
+          </DrawerClose>
+        )}
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
@@ -166,5 +187,6 @@ export {
   DrawerOverlay,
   DrawerPortal,
   DrawerTitle,
-  DrawerTrigger,
+  DrawerTrigger
 };
+

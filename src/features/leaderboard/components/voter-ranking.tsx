@@ -53,26 +53,48 @@ export const VoterRanking = ({
       )}
 
       {/* Player Avatar */}
-      <Avatar className="size-10 flex-shrink-0">
-        <AvatarImage src={player.avatar} alt={player.name} />
-        <AvatarFallback className="font-semibold">
-          {player.name
-            .split(" ")
-            .map((n) => n[0])
-            .join("")
-            .slice(0, 2)
-            .toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      <TrayProfile>
+        <div className="relative p-3 cursor-pointer">
+          <Avatar className="size-10 flex-shrink-0">
+            <AvatarImage src={player.avatar} alt={player.name} />
+            <AvatarFallback className="font-semibold">
+              {player.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+
+          <Image
+            src={
+              ranking && Number(ranking) <= 3
+                ? "/assets/icons/avatar-award.png"
+                : "/assets/icons/avatar-award-2.png"
+            }
+            alt="Avatar Award"
+            width={70}
+            height={70}
+            className="absolute top-0 right-0 -translate-y-px"
+          />
+        </div>
+      </TrayProfile>
 
       {/* Player Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <h3 className="font-semibold text-foreground truncate text-sm">
-            {player.name}
-          </h3>
+          <TrayProfile>
+            <h3 className="font-semibold text-foreground truncate text-sm cursor-pointer">
+              {player.name}
+            </h3>
+          </TrayProfile>
         </div>
-        <p className="text-sm text-muted-foreground truncate">{player.email}</p>
+        <TrayProfile>
+          <p className="text-sm text-muted-foreground truncate cursor-pointer">
+            {player.email}
+          </p>
+        </TrayProfile>
       </div>
 
       {/* Votes and Voters */}
@@ -103,16 +125,6 @@ export const VoterRanking = ({
           </TooltipTrigger>
         </TrayUpvote>
         <TooltipContent>Upvote</TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TrayProfile>
-          <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" rounded="full">
-              <MoveUpRight className="size-4" />
-            </Button>
-          </TooltipTrigger>
-        </TrayProfile>
-        <TooltipContent>See profile</TooltipContent>
       </Tooltip>
     </div>
   );

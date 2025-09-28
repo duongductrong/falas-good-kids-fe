@@ -40,3 +40,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Top 1: https://www.flaticon.com/free-icon/badge_16779412?related_id=16779412
 - Top 2: https://www.flaticon.com/free-icon/badge_16779413
 - Top 3: https://www.flaticon.com/free-icon/badge_16779414
+- Avatar Award: https://www.flaticon.com/free-icon/avatar_16779415

@@ -26,7 +26,7 @@ export const TrayLeaderboard = ({
   return (
     <Drawer variant="tray">
       <DrawerTrigger asChild={asChildTrigger}>{children}</DrawerTrigger>
-      <DrawerContent className="">
+      <DrawerContent className="data-[variant=tray]:max-w-2xl mx-auto">
         <DrawerHeader>
           <DrawerTitle>Leaderboard</DrawerTitle>
           <DrawerDescription>View the leaderboard.</DrawerDescription>

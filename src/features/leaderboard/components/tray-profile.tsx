@@ -11,7 +11,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { ArrowBigUpDash, UserCircle } from "lucide-react";
+import { ArrowBigUpDash, History, UserCircle } from "lucide-react";
 import { PropsWithChildren } from "react";
 import { TrayUpvote } from "./tray-upvote";
 import {
@@ -67,7 +67,7 @@ const TrayProfile = ({ children }: TrayProfileProps) => {
               </div>
             </div>
 
-            <h2 className="text-lg font-bold mb-2 mt-6">Achievements</h2>
+            <h2 className="text-lg font-bold mb-2 mt-6">Recent achievements</h2>
             <div className="flex flex-wrap justify-center gap-8 w-full">
               <div className="flex flex-col gap-2 items-center">
                 <Image
@@ -85,15 +85,13 @@ const TrayProfile = ({ children }: TrayProfileProps) => {
                   width={32}
                   height={32}
                 />
-                <span className="text-sm font-bold">
-                  #2 September 2025
-                </span>
+                <span className="text-sm font-bold">#2 September 2025</span>
               </div>
             </div>
           </div>
         </ScrollArea>
         <DrawerFooter className="flex flex-row justify-between items-center gap-4">
-          <div>
+          <div className="flex items-center gap-2">
             <Tooltip>
               <TrayUpvote>
                 <TooltipTrigger asChild>
@@ -103,6 +101,16 @@ const TrayProfile = ({ children }: TrayProfileProps) => {
                 </TooltipTrigger>
               </TrayUpvote>
               <TooltipContent>Upvote</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TrayUpvote>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" rounded="full">
+                    <History className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+              </TrayUpvote>
+              <TooltipContent>Votes history</TooltipContent>
             </Tooltip>
           </div>
 
