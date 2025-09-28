@@ -31,12 +31,16 @@ export const TrayLeaderboard = ({
           <DrawerTitle>Leaderboard</DrawerTitle>
           <DrawerDescription>View the leaderboard.</DrawerDescription>
         </DrawerHeader>
-        <ScrollArea className="px-4">
-          <div className="max-h-[500px] flex flex-col gap-3">
+        <ScrollArea className="px-4 relative">
+          <div className="absolute top-0 left-0 w-full h-10 bg-gradient-to-t from-transparent to-background pointer-events-none" />
+
+          <div className="max-h-[500px] flex flex-col gap-3 mt-6 mb-6">
             {mockupPlayers.map((player) => (
               <VoterRanking key={player.id} player={player} showRank={true} />
             ))}
           </div>
+
+          <div className="absolute bottom-0 left-0 w-full h-10 bg-gradient-to-b from-transparent to-background pointer-events-none" />
         </ScrollArea>
         <DrawerFooter className="flex flex-row justify-end items-center gap-4">
           <DrawerClose asChild>
@@ -137,6 +141,54 @@ const mockupPlayers: Player[] = [
     email: "david.martinez@example.com",
     votes: 12,
     rank: 4,
+    voters: [],
+  },
+  {
+    id: "5",
+    name: "Ethan Rodriguez",
+    email: "ethan.rodriguez@example.com",
+    votes: 7,
+    rank: 5,
+    voters: [],
+  },
+  {
+    id: "6",
+    name: "Fiona Garcia",
+    email: "fiona.garcia@example.com",
+    votes: 3,
+    rank: 6,
+    voters: [],
+  },
+  {
+    id: "7",
+    name: "George Lopez",
+    email: "george.lopez@example.com",
+    votes: 2,
+    rank: 7,
+    voters: [],
+  },
+  {
+    id: "8",
+    name: "Henry Wilson",
+    email: "henry.wilson@example.com",
+    votes: 1,
+    rank: 8,
+    voters: [],
+  },
+  {
+    id: "9",
+    name: "Isabella Hernandez",
+    email: "isabella.hernandez@example.com",
+    votes: 0,
+    rank: 9,
+    voters: [],
+  },
+  {
+    id: "10",
+    name: "Jack Martinez",
+    email: "jack.martinez@example.com",
+    votes: 0,
+    rank: 10,
     voters: [],
   },
 ];
