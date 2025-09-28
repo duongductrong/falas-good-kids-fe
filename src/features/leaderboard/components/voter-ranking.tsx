@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowBigUpDash } from "lucide-react";
+import Image from "next/image";
 import { TrayUpvote } from "./tray-upvote";
 import { VoterAvatars, type Voter } from "./voter-avatars";
 
@@ -26,6 +27,8 @@ export const VoterRanking = ({
   className,
   showRank = true,
 }: VoterRankingProps) => {
+  const ranking = Number(player.rank) <= 3 ? player.rank : "n";
+
   return (
     <div
       className={cn(
@@ -34,10 +37,13 @@ export const VoterRanking = ({
       )}
     >
       {/* Rank */}
-      {showRank && player.rank && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
-          {player.rank}
-        </div>
+      {showRank && ranking && (
+        <Image
+          src={`/assets/icons/badge-top-${ranking}.png`}
+          alt={`Top ${ranking}`}
+          width={32}
+          height={32}
+        />
       )}
 
       {/* Player Avatar */}
