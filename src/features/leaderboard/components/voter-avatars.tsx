@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 export interface Voter {
-  id: string;
+  id: number;
   name: string;
   avatar?: string;
 }
@@ -14,19 +14,19 @@ export interface VoterAvatarsProps {
   size?: "sm" | "md" | "lg";
 }
 
-export const VoterAvatars = ({ 
-  voters, 
-  maxVisible = 3, 
+export const VoterAvatars = ({
+  voters,
+  maxVisible = 3,
   className,
-  size = "sm" 
+  size = "sm",
 }: VoterAvatarsProps) => {
   const visibleVoters = voters.slice(0, maxVisible);
   const remainingCount = Math.max(0, voters.length - maxVisible);
-  
+
   const sizeClasses = {
     sm: "size-6",
-    md: "size-8", 
-    lg: "size-10"
+    md: "size-8",
+    lg: "size-10",
   };
 
   if (voters.length === 0) {
@@ -41,8 +41,8 @@ export const VoterAvatars = ({
     <div className={cn("flex items-center", className)}>
       <div className="flex -space-x-2">
         {visibleVoters.map((voter, index) => (
-          <Avatar 
-            key={voter.id} 
+          <Avatar
+            key={voter.id}
             className={cn(
               sizeClasses[size],
               "border-2 border-background relative z-10",
@@ -52,13 +52,18 @@ export const VoterAvatars = ({
           >
             <AvatarImage src={voter.avatar} alt={voter.name} />
             <AvatarFallback className="text-xs">
-              {voter.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()}
+              {voter.name
+                .split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}
             </AvatarFallback>
           </Avatar>
         ))}
-        
+
         {remainingCount > 0 && (
-          <div 
+          <div
             className={cn(
               sizeClasses[size],
               "bg-muted border-2 border-background rounded-full flex items-center justify-center text-xs font-medium text-muted-foreground relative"

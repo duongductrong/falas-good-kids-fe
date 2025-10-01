@@ -10,17 +10,18 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { ArrowBigUpDash, History, UserCircle } from "lucide-react";
-import { PropsWithChildren } from "react";
-import { TrayUpvote } from "./tray-upvote";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { ArrowBigUpDash, History, UserCircle } from "lucide-react";
 import Image from "next/image";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { PropsWithChildren } from "react";
+import TrayHistory from "./tray-history";
+import { TrayUpvote } from "./tray-upvote";
 
 export interface TrayProfileProps extends PropsWithChildren {}
 
@@ -103,13 +104,13 @@ const TrayProfile = ({ children }: TrayProfileProps) => {
               <TooltipContent>Upvote</TooltipContent>
             </Tooltip>
             <Tooltip>
-              <TrayUpvote>
+              <TrayHistory>
                 <TooltipTrigger asChild>
                   <Button variant="outline" size="icon" rounded="full">
                     <History className="size-4" />
                   </Button>
                 </TooltipTrigger>
-              </TrayUpvote>
+              </TrayHistory>
               <TooltipContent>Votes history</TooltipContent>
             </Tooltip>
           </div>

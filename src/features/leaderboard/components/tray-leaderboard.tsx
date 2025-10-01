@@ -11,22 +11,30 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { PropsWithChildren } from "react";
-import { Player, VoterRanking } from "./voter-ranking";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PropsWithChildren, useMemo, useState } from "react";
+import {
+  LeaderboardResponse,
+  useLeaderboard,
+} from "../queries/use-leaderboard";
+import { Competitor, CompetitorRanking } from "./competitor-ranking";
+import { LeaderboardEmpty } from "./leaderboard-empty";
 
-export interface TrayLeaderboardProps extends PropsWithChildren {
-  asChildTrigger?: boolean;
-}
+export interface TrayLeaderboardProps extends PropsWithChildren {}
 
-export const TrayLeaderboard = ({
-  children,
-  asChildTrigger = false,
-}: TrayLeaderboardProps) => {
+export const TrayLeaderboard = ({ children }: TrayLeaderboardProps) => {
+  const [open, setOpen] = useState(false);
+
+  const { data } = useLeaderboard({
+    enabled: open,
+  });
+
+  const competitors = useBuildCompetitors(data);
+
   return (
-    <Drawer variant="tray">
-      <DrawerTrigger asChild={asChildTrigger}>{children}</DrawerTrigger>
-      <DrawerContent className="data-[variant=tray]:max-w-2xl mx-auto">
+    <Drawer open={open} onOpenChange={setOpen} variant="tray">
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
+      <DrawerContent className="mx-auto">
         <DrawerHeader>
           <DrawerTitle>Leaderboard</DrawerTitle>
           <DrawerDescription>View the leaderboard.</DrawerDescription>
@@ -35,9 +43,17 @@ export const TrayLeaderboard = ({
           <div className="absolute top-0 left-0 w-full h-10 bg-gradient-to-t from-transparent to-background pointer-events-none" />
 
           <div className="max-h-[500px] flex flex-col gap-3 mt-6 mb-6">
-            {mockupPlayers.map((player) => (
-              <VoterRanking key={player.id} player={player} showRank={true} />
-            ))}
+            {competitors.length === 0 ? (
+              <LeaderboardEmpty />
+            ) : (
+              competitors.map((competitor) => (
+                <CompetitorRanking
+                  key={competitor.id}
+                  competitor={competitor}
+                  showRank={true}
+                />
+              ))
+            )}
           </div>
 
           <div className="absolute bottom-0 left-0 w-full h-10 bg-gradient-to-b from-transparent to-background pointer-events-none" />
@@ -52,143 +68,22 @@ export const TrayLeaderboard = ({
   );
 };
 
-// Mockup data for demonstration
-const mockupPlayers: Player[] = [
-  {
-    id: "1",
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-    votes: 127,
-    rank: 1,
-    voters: [
-      {
-        id: "v1",
-        name: "John Doe",
-        avatar:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop&crop=face",
-      },
-      {
-        id: "v2",
-        name: "Jane Smith",
-        avatar:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      },
-      {
-        id: "v3",
-        name: "Mike Wilson",
-        avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      },
-      {
-        id: "v4",
-        name: "Sarah Davis",
-        avatar:
-          "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
-      },
-      {
-        id: "v5",
-        name: "Tom Brown",
-        avatar:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      },
-    ],
-  },
-  {
-    id: "2",
-    name: "Bob Smith",
-    email: "bob.smith@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-    votes: 89,
-    rank: 2,
-    voters: [
-      {
-        id: "v6",
-        name: "Emma Wilson",
-        avatar:
-          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      },
-      {
-        id: "v7",
-        name: "Alex Chen",
-        avatar:
-          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      },
-    ],
-  },
-  {
-    id: "3",
-    name: "Carol Williams",
-    email: "carol.williams@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
-    votes: 45,
-    rank: 3,
-    voters: [
-      {
-        id: "v8",
-        name: "David Lee",
-        avatar:
-          "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=150&h=150&fit=crop&crop=face",
-      },
-    ],
-  },
-  {
-    id: "4",
-    name: "David Martinez",
-    email: "david.martinez@example.com",
-    votes: 12,
-    rank: 4,
-    voters: [],
-  },
-  {
-    id: "5",
-    name: "Ethan Rodriguez",
-    email: "ethan.rodriguez@example.com",
-    votes: 7,
-    rank: 5,
-    voters: [],
-  },
-  {
-    id: "6",
-    name: "Fiona Garcia",
-    email: "fiona.garcia@example.com",
-    votes: 3,
-    rank: 6,
-    voters: [],
-  },
-  {
-    id: "7",
-    name: "George Lopez",
-    email: "george.lopez@example.com",
-    votes: 2,
-    rank: 7,
-    voters: [],
-  },
-  {
-    id: "8",
-    name: "Henry Wilson",
-    email: "henry.wilson@example.com",
-    votes: 1,
-    rank: 8,
-    voters: [],
-  },
-  {
-    id: "9",
-    name: "Isabella Hernandez",
-    email: "isabella.hernandez@example.com",
-    votes: 0,
-    rank: 9,
-    voters: [],
-  },
-  {
-    id: "10",
-    name: "Jack Martinez",
-    email: "jack.martinez@example.com",
-    votes: 0,
-    rank: 10,
-    voters: [],
-  },
-];
+export const useBuildCompetitors = (data: LeaderboardResponse | undefined) => {
+  return useMemo(
+    () =>
+      (data?.data || []).map<Competitor>((competitor, index) => ({
+        id: competitor.id,
+        name: competitor.realName,
+        email: competitor.email,
+        avatar: competitor.avatar,
+        scores: competitor.scores,
+        voters: competitor.voters.map((voter) => ({
+          id: voter.id,
+          name: voter.realName,
+          avatar: voter.avatar,
+        })),
+        rank: index + 1,
+      })),
+    [data]
+  );
+};

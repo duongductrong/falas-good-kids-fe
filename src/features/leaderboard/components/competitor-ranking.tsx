@@ -6,34 +6,34 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { ArrowBigUpDash, MoveUpRight } from "lucide-react";
+import { ArrowBigUpDash } from "lucide-react";
 import Image from "next/image";
 import TrayProfile from "./tray-profile";
 import { TrayUpvote } from "./tray-upvote";
 import { VoterAvatars, type Voter } from "./voter-avatars";
 
-export interface Player {
-  id: string;
+export interface Competitor {
+  id: string | number;
   name: string;
   email: string;
   avatar?: string;
-  votes: number;
+  scores: number;
   voters: Voter[];
   rank?: number;
 }
 
-export interface VoterRankingProps {
-  player: Player;
+export interface CompetitorRankingProps {
+  competitor: Competitor;
   className?: string;
   showRank?: boolean;
 }
 
-export const VoterRanking = ({
-  player,
+export const CompetitorRanking = ({
+  competitor,
   className,
   showRank = true,
-}: VoterRankingProps) => {
-  const ranking = Number(player.rank) <= 3 ? player.rank : "n";
+}: CompetitorRankingProps) => {
+  const ranking = Number(competitor.rank) <= 3 ? competitor.rank : "n";
 
   return (
     <div
@@ -56,9 +56,9 @@ export const VoterRanking = ({
       <TrayProfile>
         <div className="relative p-3 cursor-pointer">
           <Avatar className="size-10 flex-shrink-0">
-            <AvatarImage src={player.avatar} alt={player.name} />
+            <AvatarImage src={competitor.avatar} alt={competitor.name} />
             <AvatarFallback className="font-semibold">
-              {player.name
+              {competitor.name
                 .split(" ")
                 .map((n) => n[0])
                 .join("")
@@ -86,30 +86,30 @@ export const VoterRanking = ({
         <div className="flex items-center gap-2 mb-1">
           <TrayProfile>
             <h3 className="font-semibold text-foreground truncate text-sm cursor-pointer">
-              {player.name}
+              {competitor.name}
             </h3>
           </TrayProfile>
         </div>
         <TrayProfile>
           <p className="text-sm text-muted-foreground truncate cursor-pointer">
-            {player.email}
+            {competitor.email}
           </p>
         </TrayProfile>
       </div>
 
       {/* Votes and Voters */}
       <div className="flex-shrink-0 text-right">
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center justify-end gap-2 mb-2">
           <span className="text-lg font-bold text-foreground">
-            {player.votes}
+            {competitor.scores}
           </span>
           <span className="text-sm text-muted-foreground">
-            {player.votes === 1 ? "vote" : "votes"}
+            {competitor.scores === 1 ? "vote" : "votes"}
           </span>
         </div>
 
         <VoterAvatars
-          voters={player.voters}
+          voters={competitor.voters}
           maxVisible={3}
           size="sm"
           className="justify-end"

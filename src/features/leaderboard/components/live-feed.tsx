@@ -30,7 +30,7 @@ export const LiveFeed = ({ className, ...props }: LiveFeedProps) => {
         </div>
 
         <aside>
-          <TrayLeaderboard asChildTrigger>
+          <TrayLeaderboard>
             <Button variant="ghost" size="sm">
               See leaderboard
               <ArrowRightIcon className="size-4" />
