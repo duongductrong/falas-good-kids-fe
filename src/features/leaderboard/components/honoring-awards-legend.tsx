@@ -1,9 +1,12 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { Circle } from "lucide-react";
+import { ArrowUp, Circle } from "lucide-react";
 import Image from "next/image";
 import { ComponentProps } from "react";
+import { TrayUpvote } from "./tray-upvote";
+import TrayProfile from "./tray-profile";
 
 export interface HonoringAwardsLegendProps extends ComponentProps<"div"> {
   avatar: string;
@@ -20,7 +23,6 @@ export const HonoringAwardsLegend = ({
   color = "#fff",
   ...props
 }: HonoringAwardsLegendProps) => {
-  const ranking = 1;
   return (
     <div
       className={cn("flex gap-8 justify-between [&>*]:w-full pb-14", className)}
@@ -56,21 +58,25 @@ export const HonoringAwardsLegend = ({
             <Circle className="size-30" />
           )}
         </div>
-        <div
-          data-top={top}
-          className={cn("text-base md:text-xl text-foreground font-bold")}
-        >
-          {name}
-        </div>
-        <div
-          data-top={top}
-          className={cn("text-2xl text-foreground font-bold mb-4", {
-            "text-top-1": top === "1",
-            "text-top-2": top === "2",
-            "text-top-3": top === "3",
-          })}
-        >
-          Top #{top}
+        <div className="flex flex-col items-center justify-center gap-2">
+          <p
+            data-top={top}
+            className={cn("text-base md:text-xl text-foreground font-bold")}
+          >
+            {name}
+          </p>
+          <div className="flex gap-2 mb-4">
+            <TrayUpvote>
+              <Button size="xs" variant="default" className="shrink-0 w-fit">
+                Upvote <ArrowUp className="size-3" />
+              </Button>
+            </TrayUpvote>
+            <TrayProfile>
+              <Button size="xs" variant="outline" className="shrink-0 w-fit">
+                View profile
+              </Button>
+            </TrayProfile>
+          </div>
         </div>
       </div>
     </div>

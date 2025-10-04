@@ -13,11 +13,22 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
+import { useVoteTopics } from "@/features/vote";
 import { PropsWithChildren } from "react";
 
 export interface TrayUpvoteProps extends PropsWithChildren {}
 
 export const TrayUpvote = ({ children }: TrayUpvoteProps) => {
+  const { data: topics } = useVoteTopics({
+    select(data) {
+      return data.data.map((topic) => ({
+        label: topic.text,
+        value: topic.value,
+        id: topic.id,
+      }));
+    },
+  });
+
   return (
     <Drawer variant="tray">
       <DrawerTrigger asChild>{children}</DrawerTrigger>
@@ -41,50 +52,7 @@ export const TrayUpvote = ({ children }: TrayUpvoteProps) => {
             placeholder="Enterprise email (Optional)"
             className="w-full"
           />
-          <Combobox
-            placeholder="Reason"
-            options={[
-              {
-                value: "learn_unlearn_relearn",
-                label: "Learn, unlearn, relearn",
-              },
-              {
-                value: "try_new_things",
-                label: "Try new things. Fail fast. Fail cheap.",
-              },
-              {
-                value: "create_value_progress",
-                label: "Create and value progress",
-              },
-              {
-                value: "do_what_you_say",
-                label: "Do what you say, say what you mean",
-              },
-              {
-                value: "take_action_produce_results",
-                label:
-                  "Constantly take action to produce results instead of waiting, hoping, and blaming",
-              },
-              {
-                value: "listen_give_feedforward",
-                label:
-                  "Listen genuinely and give constructive feedforward to the right people on time",
-              },
-              {
-                value: "data_informed_decisions",
-                label:
-                  "Make data-informed decisions and take actions based on customer's needs and feedback",
-              },
-              {
-                value: "experience_as_customers",
-                label: "Experience and play games as customers",
-              },
-              {
-                value: "deliver_wow",
-                label: "Deliver 'WOW' to users",
-              },
-            ]}
-          />
+          <Combobox placeholder="Reason" options={topics} />
           {/* <Select name="topic">
             <SelectTrigger className="w-full">
               <SelectValue

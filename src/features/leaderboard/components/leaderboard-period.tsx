@@ -32,7 +32,7 @@ export const LeaderboardPeriod = ({
         <TabsList>
           <TabsTrigger value="all-time">All time</TabsTrigger>
           <TabsTrigger value="monthly">Monthly</TabsTrigger>
-          <TabsTrigger value="weekly">Weekly</TabsTrigger>
+          {/* <TabsTrigger value="weekly">Weekly</TabsTrigger> */}
         </TabsList>
       </Tabs>
     </Container>
