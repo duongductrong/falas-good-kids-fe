@@ -16,6 +16,7 @@ export enum LeaderboardSortOrder {
 export interface LeaderboardRequest {
   range?: LeaderboardRange;
   sortOrder?: LeaderboardSortOrder;
+  size?: number
 }
 
 export type LeaderboardCompetitor = Pick<
@@ -28,7 +29,7 @@ export type LeaderboardCompetitor = Pick<
 };
 
 export interface LeaderboardResponse
-  extends ApiResponse<LeaderboardCompetitor[]> {}
+  extends ApiResponse<LeaderboardCompetitor[]> { }
 
 export const useLeaderboard = createQuery<
   LeaderboardResponse,
@@ -44,8 +45,8 @@ export const useLeaderboardSuspense = createSuspenseQuery<
   LeaderboardResponse,
   LeaderboardRequest
 >({
-  queryKey: ["useLeaderboardSuspense"],
+  queryKey: ["useLeaderboard"],
   fetcher: () => {
-    return http.get("leaderboard");
+    return http.get("leaderboard").then((res) => res.data);
   },
 });

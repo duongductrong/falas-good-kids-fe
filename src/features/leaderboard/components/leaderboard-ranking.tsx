@@ -22,23 +22,23 @@ export interface Competitor {
   rank?: number;
 }
 
-export interface CompetitorRankingProps {
+export interface LeaderboardRankingProps {
   competitor: Competitor;
   className?: string;
   showRank?: boolean;
 }
 
-export const CompetitorRanking = ({
+export const LeaderboardRanking = ({
   competitor,
   className,
   showRank = true,
-}: CompetitorRankingProps) => {
+}: LeaderboardRankingProps) => {
   const ranking = Number(competitor.rank) <= 3 ? competitor.rank : "n";
 
   return (
     <div
       className={cn(
-        "flex items-center gap-4 px-4 py-2 rounded-lg border transition-colors",
+        "flex items-center gap-4 px-4 py-2 rounded-lg border border-border transition-colors",
         className
       )}
     >
@@ -51,6 +51,12 @@ export const CompetitorRanking = ({
           height={32}
         />
       )}
+
+      {showRank ? (
+        <span className="text-sm text-muted-foreground font-semibold">
+          #{competitor.rank}
+        </span>
+      ) : null}
 
       {/* Player Avatar */}
       <TrayProfile>

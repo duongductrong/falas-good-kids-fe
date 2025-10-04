@@ -17,7 +17,7 @@ import {
   LeaderboardResponse,
   useLeaderboard,
 } from "../queries/use-leaderboard";
-import { Competitor, CompetitorRanking } from "./competitor-ranking";
+import { Competitor, LeaderboardRanking } from "./leaderboard-ranking";
 import { LeaderboardEmpty } from "./leaderboard-empty";
 
 export interface TrayLeaderboardProps extends PropsWithChildren {}
@@ -47,7 +47,7 @@ export const TrayLeaderboard = ({ children }: TrayLeaderboardProps) => {
               <LeaderboardEmpty />
             ) : (
               competitors.map((competitor) => (
-                <CompetitorRanking
+                <LeaderboardRanking
                   key={competitor.id}
                   competitor={competitor}
                   showRank={true}

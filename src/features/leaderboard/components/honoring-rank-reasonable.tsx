@@ -6,6 +6,8 @@ export interface HonoringRankReasonableProps extends ComponentProps<"div"> {
   ranking: number;
   fill: string;
   fillText?: string;
+  voteCount?: number;
+  winCount?: number;
 }
 
 const HonoringRankReasonable = ({
@@ -13,12 +15,14 @@ const HonoringRankReasonable = ({
   ranking,
   fill,
   fillText = "#fff",
+  voteCount = 0,
+  winCount = 0,
   ...props
 }: HonoringRankReasonableProps) => {
   return (
     <div {...props} className={cn("flex items-center gap-2", className)}>
       <div className="flex flex-col text-right">
-        <p className="text-base font-bold text-foreground">203</p>
+        <p className="text-base font-bold text-foreground">{voteCount}</p>
         <p className="text-xs text-muted-foreground">Votes</p>
       </div>
       <HonoringRank
@@ -27,7 +31,7 @@ const HonoringRankReasonable = ({
         textColor={fillText}
       />
       <div className="flex flex-col text-left">
-        <p className="text-base font-bold text-foreground">002</p>
+        <p className="text-base font-bold text-foreground">{winCount}</p>
         <p className="text-xs text-muted-foreground">Wins</p>
       </div>
     </div>

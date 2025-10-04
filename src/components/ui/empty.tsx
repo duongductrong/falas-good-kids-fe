@@ -1,25 +1,104 @@
-import Image from "next/image";
+import { cva, type VariantProps } from "class-variance-authority"
 
-export interface EmptyFolderProps {
-  title: string;
-  description: string;
+import { cn } from "@/lib/utils"
+
+function Empty({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="empty"
+      className={cn(
+        "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-export const EmptyFolder = ({ title, description }: EmptyFolderProps) => {
+function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <Image
-        src="/assets/icons/empty-folder.png"
-        alt="Empty State"
-        width={100}
-        height={100}
-        className="size-24 mb-4"
-      />
+    <div
+      data-slot="empty-header"
+      className={cn(
+        "flex max-w-sm flex-col items-center gap-2 text-center",
+        className
+      )}
+      {...props}
+    />
+  )
+}
 
-      <p className="text-sm text-muted-foreground font-medium mb-2">
-        {title}
-      </p>
-      <p className="text-sm text-muted-foreground">{description}</p>
-    </div>
-  );
-};
+const emptyMediaVariants = cva(
+  "flex shrink-0 items-center justify-center mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-transparent",
+        icon: "bg-muted text-foreground flex size-10 shrink-0 items-center justify-center rounded-lg [&_svg:not([class*='size-'])]:size-6",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function EmptyMedia({
+  className,
+  variant = "default",
+  ...props
+}: React.ComponentProps<"div"> & VariantProps<typeof emptyMediaVariants>) {
+  return (
+    <div
+      data-slot="empty-icon"
+      data-variant={variant}
+      className={cn(emptyMediaVariants({ variant, className }))}
+      {...props}
+    />
+  )
+}
+
+function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="empty-title"
+      className={cn("text-lg font-medium tracking-tight", className)}
+      {...props}
+    />
+  )
+}
+
+function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return (
+    <div
+      data-slot="empty-description"
+      className={cn(
+        "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="empty-content"
+      className={cn(
+        "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+  EmptyMedia,
+}

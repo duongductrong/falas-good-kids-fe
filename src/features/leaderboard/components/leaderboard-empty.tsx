@@ -1,4 +1,4 @@
-import { EmptyFolder } from "@/components/ui/empty";
+import { EmptyFolder } from "@/components/ui/empty-custom";
 
 export const LeaderboardEmpty = () => {
   return (
