@@ -28,8 +28,13 @@ export const HonoringAwardsLegend = ({
     >
       <div className="flex flex-col gap-2 flex flex-col items-center">
         <div className="relative">
-          {/* [background:linear-gradient(to_bottom,rgba(87,102,189,0.5)_0%,rgba(0,0,0,0.5)_100%)] */}
-          {/* <div className="absolute inset-0 bg-gradient-to-b from-primary/15 to-transparent rounded-lg" /> */}
+          <Image
+            className="absolute bottom-full left-1/2 -translate-x-1/2 z-10 size-14"
+            src={`/assets/icons/crown-${top}.png`}
+            alt="Crown"
+            width={150}
+            height={150}
+          />
           {avatar ? (
             <div className="relative p-3 cursor-pointer">
               <Avatar className="size-24 flex-shrink-0">

@@ -1,11 +1,12 @@
 import {
   BaseLayout,
   LeaderboardAnnouncement,
+  LeaderboardFilter,
+  LeaderboardPeriod,
+  LeaderboardProvider,
   LeaderboardTable,
-  LeaderboardTopPlayers,
+  LeaderboardTopPlayers
 } from "@/features/leaderboard/";
-import LeaderboardFilter from "@/features/leaderboard/components/leaderboard-filter";
-import { LeaderboardProvider } from "@/features/leaderboard/components/leaderboard-provider";
 import { VerticalBars } from "@/features/leaderboard/components/vertical-bars";
 
 export default function Home() {
@@ -18,9 +19,10 @@ export default function Home() {
           </div>
 
           <div className="w-full">
-            <LeaderboardFilter className="mb-12" />
+            <LeaderboardPeriod className="mb-10" />
             <LeaderboardTopPlayers />
-            <LeaderboardAnnouncement className="mb-20" />
+            <LeaderboardAnnouncement className="mb-10" />
+            <LeaderboardFilter className="mb-12" />
             <LeaderboardTable />
           </div>
           <div className="pr-16 pl-8 flex items-center justify-center">

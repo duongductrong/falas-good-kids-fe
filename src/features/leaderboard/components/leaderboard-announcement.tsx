@@ -40,7 +40,7 @@ export const EndOfTheMonth = () => {
 
   return (
     <div className="text-center">
-      <Timer className="size-10 text-base mx-auto mb-2" />
+      <Timer className="size-10 text-base mx-auto mb-2 text-muted-foreground" />
       <h2 className="text-muted-foreground text-sm mb-4">
         Ends in {endOfMonth.format("MMMM D, YYYY")}
       </h2>
