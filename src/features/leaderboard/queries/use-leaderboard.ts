@@ -3,8 +3,7 @@ import { Person } from "@/shared/types";
 import { createQuery, createSuspenseQuery } from "react-query-kit";
 
 export enum LeaderboardRange {
-  CURRENT_MONTH = "current_month",
-  CURRENT_YEAR = "current_year",
+  MONTHLY = "monthly",
   ALL_TIME = "all_time",
 }
 
@@ -16,8 +15,9 @@ export enum LeaderboardSortOrder {
 export interface LeaderboardRequest {
   range?: LeaderboardRange;
   sortOrder?: LeaderboardSortOrder;
-  size?: number
-  topicId?: number
+  size?: number;
+  topicId?: number;
+  duration?: string
 }
 
 export type LeaderboardCompetitor = Pick<
@@ -30,7 +30,7 @@ export type LeaderboardCompetitor = Pick<
 };
 
 export interface LeaderboardResponse
-  extends ApiResponse<LeaderboardCompetitor[]> { }
+  extends ApiResponse<LeaderboardCompetitor[]> {}
 
 export const useLeaderboard = createQuery<
   LeaderboardResponse,
@@ -48,6 +48,8 @@ export const useLeaderboardSuspense = createSuspenseQuery<
 >({
   queryKey: ["useLeaderboard"],
   fetcher: (variables) => {
-    return http.get("leaderboard", { params: variables }).then((res) => res.data);
+    return http
+      .get("leaderboard", { params: variables })
+      .then((res) => res.data);
   },
 });

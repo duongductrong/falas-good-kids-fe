@@ -2,6 +2,7 @@
 
 import { set } from "lodash-es";
 import React, { createContext, useContext, useMemo } from "react";
+import { useDurationQuery } from "../hooks/use-duration-query";
 import { useTopicQuery } from "../hooks/use-topic-query";
 import {
   LeaderboardRequest,
@@ -35,14 +36,15 @@ export interface LeaderboardProviderProps {
 
 export const LeaderboardProvider = (props: LeaderboardProviderProps) => {
   const [topicId] = useTopicQuery();
+  const [duration] = useDurationQuery();
+
   const variables = useMemo<LeaderboardRequest>(() => {
     const record = {};
-    if (topicId) {
-      set(record, "topicId", topicId);
-    }
+    if (topicId) set(record, "topicId", topicId);
+    if (duration) set(record, "duration", duration);
 
     return record;
-  }, [topicId]);
+  }, [topicId, duration]);
 
   const { data } = useLeaderboardSuspense({
     variables: variables,
