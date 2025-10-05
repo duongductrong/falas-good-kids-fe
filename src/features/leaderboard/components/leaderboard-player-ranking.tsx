@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { ComponentProps } from "react";
 import { HonoringRank } from "./honoring-rank";
 
-export interface HonoringRankReasonableProps extends ComponentProps<"div"> {
+export interface LeaderboardPlayerRankingProps extends ComponentProps<"div"> {
   ranking: number;
   fill: string;
   fillText?: string;
@@ -10,7 +10,7 @@ export interface HonoringRankReasonableProps extends ComponentProps<"div"> {
   winCount?: number;
 }
 
-const HonoringRankReasonable = ({
+const LeaderboardPlayerRanking = ({
   className,
   ranking,
   fill,
@@ -18,7 +18,7 @@ const HonoringRankReasonable = ({
   voteCount = 0,
   winCount = 0,
   ...props
-}: HonoringRankReasonableProps) => {
+}: LeaderboardPlayerRankingProps) => {
   return (
     <div {...props} className={cn("flex items-center gap-2", className)}>
       <div className="flex flex-col text-right">
@@ -38,4 +38,4 @@ const HonoringRankReasonable = ({
   );
 };
 
-export default HonoringRankReasonable;
+export default LeaderboardPlayerRanking;

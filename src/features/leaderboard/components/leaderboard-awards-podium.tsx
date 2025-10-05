@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
 import { ComponentProps, ReactNode } from "react";
 
-export interface HonoringAwardsPodiumProps extends ComponentProps<"div"> {
+export interface LeaderboardAwardsPodiumProps extends ComponentProps<"div"> {
   achievement: ReactNode;
 }
 
-export const HonoringAwardsPodium = ({
+export const LeaderboardAwardsPodium = ({
   className,
   children,
   achievement,
   ...props
-}: HonoringAwardsPodiumProps) => {
+}: LeaderboardAwardsPodiumProps) => {
   return (
     <div
       {...props}

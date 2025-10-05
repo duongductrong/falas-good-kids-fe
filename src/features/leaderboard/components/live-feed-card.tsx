@@ -8,7 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ArrowBigUpDash, User } from "lucide-react";
 import { ComponentProps } from "react";
-import HonoringRankReasonable from "./honoring-rank-reasonable";
+import LeaderboardRanking from "./leaderboard-player-ranking";
 import TrayProfile from "./tray-profile";
 import { TrayUpvote } from "./tray-upvote";
 
@@ -38,7 +38,7 @@ export const LiveFeedCard = ({
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
-        <HonoringRankReasonable
+        <LeaderboardRanking
           ranking={ranking}
           fill={colors?.[ranking - 1] || defaultColor}
         />

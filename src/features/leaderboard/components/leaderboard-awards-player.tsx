@@ -2,29 +2,26 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { ArrowUp, Circle } from "lucide-react";
+import { ArrowUp, Circle, Search } from "lucide-react";
 import Image from "next/image";
 import { ComponentProps } from "react";
-import { TrayUpvote } from "./tray-upvote";
+import { useLeaderboardAwardsContext } from "./leaderboard-awards";
 import TrayProfile from "./tray-profile";
+import { TrayUpvote } from "./tray-upvote";
 
-export interface HonoringAwardsLegendProps extends ComponentProps<"div"> {
-  avatar: string;
-  name: string;
+export interface LeaderboardAwardsPlayerProps extends ComponentProps<"div"> {
   top: "1" | "2" | "3";
   color?: string;
-  playerId: number | string;
 }
 
-export const HonoringAwardsLegend = ({
+export const LeaderboardAwardsPlayer = ({
   className,
-  avatar,
-  name,
   top = "1",
   color = "#fff",
-  playerId,
   ...props
-}: HonoringAwardsLegendProps) => {
+}: LeaderboardAwardsPlayerProps) => {
+  const { player } = useLeaderboardAwardsContext();
+
   return (
     <div
       className={cn("flex gap-8 justify-between [&>*]:w-full pb-14", className)}
@@ -39,12 +36,17 @@ export const HonoringAwardsLegend = ({
             width={150}
             height={150}
           />
-          {avatar ? (
+          {player?.avatar ? (
             <div className="relative p-3 cursor-pointer">
               <Avatar className="size-24 flex-shrink-0">
-                <AvatarImage src={avatar} alt={name} />
+                <AvatarImage src={player?.avatar} alt={player?.name} />
                 <AvatarFallback className="font-semibold">
-                  {"UN"}
+                  {player?.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 
@@ -57,7 +59,10 @@ export const HonoringAwardsLegend = ({
               />
             </div>
           ) : (
-            <Circle className="size-30" />
+            <div className="size-30 rounded-full">
+              <Circle className="size-30 text-muted-foreground" />
+              <Search className="size-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            </div>
           )}
         </div>
         <div className="flex flex-col items-center justify-center gap-2">
@@ -65,20 +70,26 @@ export const HonoringAwardsLegend = ({
             data-top={top}
             className={cn("text-base md:text-xl text-foreground font-bold")}
           >
-            {name}
+            {player?.name || "No one has achieved"}
           </p>
-          <div className="flex gap-2 mb-4">
-            <TrayUpvote>
-              <Button size="xs" variant="default" className="shrink-0 w-fit">
-                Upvote <ArrowUp className="size-3" />
-              </Button>
-            </TrayUpvote>
-            <TrayProfile id={playerId}>
-              <Button size="xs" variant="outline" className="shrink-0 w-fit">
-                View profile
-              </Button>
-            </TrayProfile>
-          </div>
+          {player ? (
+            <div className="flex gap-2 mb-4">
+              <TrayUpvote>
+                <Button size="xs" variant="default" className="shrink-0 w-fit">
+                  Upvote <ArrowUp className="size-3" />
+                </Button>
+              </TrayUpvote>
+              <TrayProfile id={player?.id}>
+                <Button size="xs" variant="outline" className="shrink-0 w-fit">
+                  View profile
+                </Button>
+              </TrayProfile>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Vote for someone to see them here
+            </p>
+          )}
         </div>
       </div>
     </div>

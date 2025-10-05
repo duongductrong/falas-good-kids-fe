@@ -45,7 +45,9 @@ export const LeaderboardProvider = (props: LeaderboardProviderProps) => {
     return {
       players: players,
       top3Players: players.slice(0, lastIndexTop3),
-      restOfPlayers: players.slice(lastIndexTop3),
+      restOfPlayers: players
+        .slice(lastIndexTop3)
+        .map((player, idx) => ({ ...player, rank: idx + 4 })),
     };
   }, [players]);
 
