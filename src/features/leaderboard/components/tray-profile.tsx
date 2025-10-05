@@ -19,9 +19,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePerson } from "@/features/person";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import {
   ArrowBigUpDash,
+  Crown,
   HandIcon,
   History,
   TrophyIcon,
@@ -29,9 +31,14 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { PropsWithChildren, useState } from "react";
-import TrayHistory from "./tray-history";
 import { TrayUpvote } from "./tray-upvote";
-import { usePerson } from "@/features/person";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 
 export interface TrayProfileProps extends PropsWithChildren {
   id: number | string;
@@ -78,13 +85,24 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
                   <HandIcon className="size-4 mr-1 shrink-0" />
                   Votes
                 </TabsTrigger>
-                <TabsTrigger value="achievements">
+                <TabsTrigger value="achievements" disabled>
                   <TrophyIcon className="size-4 mr-1 shrink-0" />
                   Achievements
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="votes" className="h-[200px]">
-                <div className="flex flex-wrap gap-8 w-full">
+                <Empty>
+                  <EmptyHeader>
+                    <EmptyMedia variant="default">
+                      <Crown className="size-4" />
+                    </EmptyMedia>
+                    <EmptyTitle>Coming Soon</EmptyTitle>
+                    <EmptyDescription>
+                      This feature is coming soon.
+                    </EmptyDescription>
+                  </EmptyHeader>
+                </Empty>
+                {/* <div className="flex flex-wrap gap-8 w-full">
                   <div className="flex flex-col items-center">
                     <span className="text-2xl font-bold">
                       {new Intl.NumberFormat("en-US").format(1230)}
@@ -102,7 +120,7 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
                       Total sent
                     </span>
                   </div>
-                </div>
+                </div> */}
               </TabsContent>
               <TabsContent value="achievements" className="h-[200px]">
                 <div className="flex flex-col gap-2">
@@ -142,14 +160,14 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
               <TooltipContent>Upvote</TooltipContent>
             </Tooltip>
             <Tooltip>
-              <TrayHistory>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" rounded="full">
-                    <History className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-              </TrayHistory>
-              <TooltipContent>Votes history</TooltipContent>
+              {/* <TrayHistory> */}
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon" rounded="full">
+                  <History className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              {/* </TrayHistory> */}
+              <TooltipContent>Votes history (Coming Soon)</TooltipContent>
             </Tooltip>
           </div>
 
