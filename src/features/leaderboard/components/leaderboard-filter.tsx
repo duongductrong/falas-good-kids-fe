@@ -22,18 +22,18 @@ import {
 } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useVoteTopics } from "@/features/vote";
-import { cn } from "@/lib/utils";
-import { Badge } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
-import { useUpdateEffect } from "react-use";
-import Container, { ContainerProps } from "../layout/container";
-import { useLeaderboardFilterStore } from "../store";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useVoteTopics } from "@/features/vote";
+import { cn } from "@/lib/utils";
+import { Badge } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { useUpdateEffect } from "react-use";
+import { useTopicQuery } from "../hooks/use-topic-query";
+import Container, { ContainerProps } from "../layout/container";
 
 export interface LeaderboardFilterProps extends ContainerProps {}
 
@@ -43,7 +43,7 @@ export const LeaderboardFilter = ({
 }: LeaderboardFilterProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isShow, setIsShow] = useState<boolean>(false);
-  const { topic, setTopic } = useLeaderboardFilterStore();
+  const [topic, setTopic] = useTopicQuery();
 
   const [selectedTopic, setSelectedTopic] = useState<string>(topic);
 
@@ -53,13 +53,13 @@ export const LeaderboardFilter = ({
         {
           id: 0,
           label: "All topics",
-          value: "all-topics",
+          value: "",
         },
       ].concat(
         data.data.map((topic) => ({
           id: topic.id,
           label: topic.text,
-          value: topic.value,
+          value: topic.id.toString(),
         }))
       );
     },
@@ -120,7 +120,10 @@ export const LeaderboardFilter = ({
                     ref={ref}
                   >
                     {topics?.map((topic) => (
-                      <FieldLabel key={topic.value} htmlFor={topic.value}>
+                      <FieldLabel
+                        key={topic.value}
+                        htmlFor={topic.value || "all"}
+                      >
                         <Field orientation="horizontal">
                           <FieldContent>
                             <FieldTitle>{topic.label}</FieldTitle>
@@ -131,7 +134,7 @@ export const LeaderboardFilter = ({
                           </FieldContent>
                           <RadioGroupItem
                             value={topic.value}
-                            id={topic.value}
+                            id={topic.value || "all"}
                           />
                         </Field>
                       </FieldLabel>

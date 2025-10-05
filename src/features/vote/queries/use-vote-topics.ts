@@ -2,15 +2,15 @@ import { ApiResponse, http } from "@/lib/http";
 import { createQuery, createSuspenseQuery } from "react-query-kit";
 import { VoteTopic } from "../types";
 
-export interface LeaderboardRequest { }
+export interface VoteTopicsRequest { }
 
 
-export interface LeaderboardResponse
+export interface VoteTopicsResponse
   extends ApiResponse<VoteTopic[]> { }
 
 export const useVoteTopics = createQuery<
-  LeaderboardResponse,
-  LeaderboardRequest
+  VoteTopicsResponse,
+  VoteTopicsRequest
 >({
   queryKey: ["votes/topics"],
   fetcher: () => {
@@ -19,8 +19,8 @@ export const useVoteTopics = createQuery<
 });
 
 export const useVoteTopicsSuspense = createSuspenseQuery<
-  LeaderboardResponse,
-  LeaderboardRequest
+  VoteTopicsResponse,
+  VoteTopicsRequest
 >({
   queryKey: ["votes/topics"],
   fetcher: () => {

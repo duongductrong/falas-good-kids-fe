@@ -17,6 +17,7 @@ export interface LeaderboardRequest {
   range?: LeaderboardRange;
   sortOrder?: LeaderboardSortOrder;
   size?: number
+  topicId?: number
 }
 
 export type LeaderboardCompetitor = Pick<
@@ -46,7 +47,7 @@ export const useLeaderboardSuspense = createSuspenseQuery<
   LeaderboardRequest
 >({
   queryKey: ["useLeaderboard"],
-  fetcher: () => {
-    return http.get("leaderboard").then((res) => res.data);
+  fetcher: (variables) => {
+    return http.get("leaderboard", { params: variables }).then((res) => res.data);
   },
 });

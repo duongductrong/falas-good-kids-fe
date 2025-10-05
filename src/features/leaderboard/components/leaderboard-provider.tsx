@@ -1,7 +1,10 @@
 "use client";
 
+import { set } from "lodash-es";
 import React, { createContext, useContext, useMemo } from "react";
+import { useTopicQuery } from "../hooks/use-topic-query";
 import {
+  LeaderboardRequest,
   LeaderboardResponse,
   useLeaderboardSuspense,
 } from "../queries/use-leaderboard";
@@ -31,7 +34,19 @@ export interface LeaderboardProviderProps {
 }
 
 export const LeaderboardProvider = (props: LeaderboardProviderProps) => {
-  const { data } = useLeaderboardSuspense({});
+  const [topicId] = useTopicQuery();
+  const variables = useMemo<LeaderboardRequest>(() => {
+    const record = {};
+    if (topicId) {
+      set(record, "topicId", topicId);
+    }
+
+    return record;
+  }, [topicId]);
+
+  const { data } = useLeaderboardSuspense({
+    variables: variables,
+  });
 
   const players = useBuildCompetitors(data);
 
