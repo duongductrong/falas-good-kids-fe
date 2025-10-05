@@ -14,8 +14,6 @@ export const LeaderboardAwards = ({
     [player]
   );
 
-  console.log(player);
-
   return (
     <LeaderboardAwardsContext.Provider value={value}>
       {children}

@@ -50,7 +50,6 @@ export const Combobox = React.forwardRef(
     const [ref, { width }] = useElementSize();
 
     React.useEffect(() => {
-      console.log(value)
       onChange?.(value);
     }, [value]);
 
