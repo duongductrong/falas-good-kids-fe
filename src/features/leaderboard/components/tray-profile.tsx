@@ -132,7 +132,7 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
         <DrawerFooter className="flex flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Tooltip>
-              <TrayUpvote>
+              <TrayUpvote playerId={id}>
                 <TooltipTrigger asChild>
                   <Button variant="outline" size="icon" rounded="full">
                     <ArrowBigUpDash className="size-4" />

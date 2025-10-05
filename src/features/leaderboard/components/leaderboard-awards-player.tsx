@@ -74,7 +74,7 @@ export const LeaderboardAwardsPlayer = ({
           </p>
           {player ? (
             <div className="flex gap-2 mb-4">
-              <TrayUpvote>
+              <TrayUpvote playerId={player?.id}>
                 <Button size="xs" variant="default" className="shrink-0 w-fit">
                   Upvote <ArrowUp className="size-3" />
                 </Button>

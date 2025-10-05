@@ -123,7 +123,7 @@ export const LeaderboardRanking = ({
       </div>
 
       <Tooltip>
-        <TrayUpvote>
+        <TrayUpvote playerId={competitor.id}>
           <TooltipTrigger asChild>
             <Button variant="outline" size="icon" rounded="full">
               <ArrowBigUpDash className="size-4" />
