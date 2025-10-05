@@ -36,7 +36,7 @@ export const EndOfTheMonth = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [getDiffEndOfMonth]);
 
   return (
     <div className="text-center">

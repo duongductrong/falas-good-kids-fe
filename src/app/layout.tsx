@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
+import { Suspense } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,9 +32,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <NuqsAdapter>{children}</NuqsAdapter>
-        </QueryProvider>
+        <Suspense
+          fallback={
+            <div className="w-full h-screen grid place-items-center">
+              <div>
+                <Spinner className="size-6" />
+                <p className="text-sm text-muted-foreground">Loading...</p>
+              </div>
+            </div>
+          }
+        >
+          <QueryProvider>
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </QueryProvider>
+        </Suspense>
         <Toaster />
       </body>
     </html>

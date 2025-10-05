@@ -51,7 +51,7 @@ export const Combobox = React.forwardRef(
 
     React.useEffect(() => {
       onChange?.(value);
-    }, [value]);
+    }, [onChange, value]);
 
     React.useImperativeHandle(outerRef, () => ref.current as any);
 
@@ -120,3 +120,5 @@ export const Combobox = React.forwardRef(
     );
   }
 );
+
+Combobox.displayName = "Combobox";

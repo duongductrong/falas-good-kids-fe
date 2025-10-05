@@ -2,8 +2,8 @@ import Axios, { AxiosResponse } from "axios";
 import qs from "qs";
 import { z } from "zod";
 
-let isRefreshToken = false;
-const requestsToRefresh: ((token: string | null) => void)[] = [];
+// const isRefreshToken = false;
+// const requestsToRefresh: ((token: string | null) => void)[] = [];
 
 export const apiResponseHandler = <T>(response: AxiosResponse<T>) => {
   return response.data;

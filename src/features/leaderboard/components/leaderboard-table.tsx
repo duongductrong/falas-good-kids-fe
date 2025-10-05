@@ -9,12 +9,12 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
+import { HandCoins } from "lucide-react";
 import Image from "next/image";
 import LeaderboardSignal2 from "../assets/leaderboard-signal-2.svg";
 import Container from "../layout/container";
 import { useLeaderboardContext } from "./leaderboard-provider";
 import { LeaderboardRanking } from "./leaderboard-ranking";
-import { HandCoins } from "lucide-react";
 
 export interface LeaderboardTableProps {}
 
@@ -31,7 +31,7 @@ export const LeaderboardTable = (props: LeaderboardTableProps) => {
         />
         <h2 className="text-foreground font-semibold text-center">Top users</h2>
         <p className="text-muted-foreground text-sm text-center">
-          Stay tuned! The leaderboard updates daily to showcase everyone's
+          Stay tuned! The leaderboard updates daily to showcase everyone&rsquo;s
           achievements. <br />
           Keep up the great work and you might find yourself at the top!
         </p>
