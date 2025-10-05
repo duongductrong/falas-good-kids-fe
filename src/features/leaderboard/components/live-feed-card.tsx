@@ -73,7 +73,7 @@ export const LiveFeedCard = ({
           <div className="flex items-center gap-2 *:cursor-pointer">
             <Tooltip>
               <TooltipContent>See profile</TooltipContent>
-              <TrayProfile>
+              <TrayProfile id={1}>
                 <TooltipTrigger asChild>
                   <Button
                     size="icon"

@@ -36,6 +36,7 @@ export const LeaderboardTopPlayers = ({ className, ...props }: LeaderboardTopPla
           avatar={top3Players?.[1]?.avatar || ""}
           top="2"
           color="#0255F5"
+          playerId={top3Players?.[1]?.id}
         />
       </HonoringAwardsPodium>
       <HonoringAwardsPodium
@@ -54,6 +55,7 @@ export const LeaderboardTopPlayers = ({ className, ...props }: LeaderboardTopPla
           avatar={top3Players?.[0]?.avatar || ""}
           top="1"
           color="#E63946"
+          playerId={top3Players?.[0]?.id}
         />
       </HonoringAwardsPodium>
       <HonoringAwardsPodium
@@ -72,6 +74,7 @@ export const LeaderboardTopPlayers = ({ className, ...props }: LeaderboardTopPla
           avatar={top3Players?.[2]?.avatar || ""}
           top="3"
           color="#00AE01"
+          playerId={top3Players?.[2]?.id}
         />
       </HonoringAwardsPodium>
     </Container>

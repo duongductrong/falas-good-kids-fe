@@ -13,6 +13,7 @@ export interface HonoringAwardsLegendProps extends ComponentProps<"div"> {
   name: string;
   top: "1" | "2" | "3";
   color?: string;
+  playerId: number | string;
 }
 
 export const HonoringAwardsLegend = ({
@@ -21,6 +22,7 @@ export const HonoringAwardsLegend = ({
   name,
   top = "1",
   color = "#fff",
+  playerId,
   ...props
 }: HonoringAwardsLegendProps) => {
   return (
@@ -71,7 +73,7 @@ export const HonoringAwardsLegend = ({
                 Upvote <ArrowUp className="size-3" />
               </Button>
             </TrayUpvote>
-            <TrayProfile>
+            <TrayProfile id={playerId}>
               <Button size="xs" variant="outline" className="shrink-0 w-fit">
                 View profile
               </Button>

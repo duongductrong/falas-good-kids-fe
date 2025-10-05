@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,15 +28,28 @@ import {
   UserCircle,
 } from "lucide-react";
 import Image from "next/image";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import TrayHistory from "./tray-history";
 import { TrayUpvote } from "./tray-upvote";
+import { usePerson } from "@/features/person";
 
-export interface TrayProfileProps extends PropsWithChildren {}
+export interface TrayProfileProps extends PropsWithChildren {
+  id: number | string;
+}
 
-const TrayProfile = ({ children }: TrayProfileProps) => {
+const TrayProfile = ({ children, id }: TrayProfileProps) => {
+  const [isShow, setIsShow] = useState(false);
+
+  const { data: person } = usePerson({
+    enabled: isShow,
+    variables: {
+      id,
+    },
+    select: (res) => res.data,
+  });
+
   return (
-    <Drawer variant="tray">
+    <Drawer open={isShow} onOpenChange={setIsShow} variant="tray">
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="">
         <DrawerHeader>
@@ -44,18 +59,16 @@ const TrayProfile = ({ children }: TrayProfileProps) => {
 
         <ScrollArea>
           <div className="px-4 pb-4 flex flex-col max-h-[400px]">
-            <div className="h-[100px] shrink-0 bg-blue-500 rounded-md"></div>
+            <div className="h-[100px] shrink-0 bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] rounded-md"></div>
             <div className="flex gap-4 translate-x-4">
               <Avatar className="size-20 border-4 border-primary -translate-y-8">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={person?.avatar} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
 
               <div className="flex flex-col justify-center">
-                <h2 className="text-2xl font-bold mb-1">Trọng Dương</h2>
-                <p className="text-sm text-muted-foreground">
-                  trongduong@example.com
-                </p>
+                <h2 className="text-2xl font-bold mb-1">{person?.realName}</h2>
+                <p className="text-sm text-muted-foreground">{person?.email}</p>
               </div>
             </div>
 

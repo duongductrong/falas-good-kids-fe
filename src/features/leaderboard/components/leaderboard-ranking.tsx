@@ -59,7 +59,7 @@ export const LeaderboardRanking = ({
       ) : null}
 
       {/* Player Avatar */}
-      <TrayProfile>
+      <TrayProfile id={competitor.id}>
         <div className="relative p-3 cursor-pointer">
           <Avatar className="size-10 flex-shrink-0">
             <AvatarImage src={competitor.avatar} alt={competitor.name} />
@@ -90,13 +90,13 @@ export const LeaderboardRanking = ({
       {/* Player Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <TrayProfile>
+          <TrayProfile id={competitor.id}>
             <h3 className="font-semibold text-foreground truncate text-sm cursor-pointer">
               {competitor.name}
             </h3>
           </TrayProfile>
         </div>
-        <TrayProfile>
+        <TrayProfile id={competitor.id}>
           <p className="text-sm text-muted-foreground truncate cursor-pointer">
             {competitor.email}
           </p>
