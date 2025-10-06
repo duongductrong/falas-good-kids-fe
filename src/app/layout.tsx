@@ -35,7 +35,7 @@ export default function RootLayout({
         <Suspense
           fallback={
             <div className="w-full h-screen grid place-items-center">
-              <div>
+              <div className="flex flex-col items-center justify-center">
                 <Spinner className="size-6" />
                 <p className="text-sm text-muted-foreground">Loading...</p>
               </div>
