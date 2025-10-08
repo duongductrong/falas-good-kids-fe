@@ -38,7 +38,7 @@ export const LeaderboardRanking = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-4 px-4 py-2 rounded-lg border border-border transition-colors",
+        "flex items-center gap-1 px-2 md:gap-4 md:px-4 py-2 rounded-lg border border-border transition-colors",
         className
       )}
     >
@@ -60,8 +60,8 @@ export const LeaderboardRanking = ({
 
       {/* Player Avatar */}
       <TrayProfile id={competitor.id}>
-        <div className="relative p-3 cursor-pointer">
-          <Avatar className="size-10 flex-shrink-0">
+        <div className="relative p-2.5 md:p-3 cursor-pointer">
+          <Avatar className="size-8 md:size-10 flex-shrink-0">
             <AvatarImage src={competitor.avatar} alt={competitor.name} />
             <AvatarFallback className="font-semibold">
               {competitor.name

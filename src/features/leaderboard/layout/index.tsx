@@ -11,7 +11,7 @@ export const BaseLayout = ({
 }: BaseLayoutProps) => {
   return (
     <div {...props} className={cn("bg-background", className)}>
-      <Header className="mb-10" />
+      <Header className="mb-4 md:mb-10" />
       {children}
     </div>
   );

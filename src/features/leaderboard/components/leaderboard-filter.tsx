@@ -111,7 +111,7 @@ export const LeaderboardFilter = ({
             </DrawerHeader>
 
             <ScrollArea>
-              <FieldGroup className="p-4 max-h-[500px]">
+              <FieldGroup className="p-4 max-h-[300px] md:max-h-full">
                 <FieldSet>
                   <RadioGroup
                     value={selectedTopic}

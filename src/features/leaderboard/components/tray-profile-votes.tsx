@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePersonVotesHistory } from "@/features/person/queries/use-person-votes-history";
+import { useElementSize } from "@/hooks/use-element-size";
 import { History } from "lucide-react";
 import { PropsWithChildren } from "react";
 
@@ -29,6 +30,8 @@ export interface TrayProfileVotesProps extends PropsWithChildren {
 }
 
 export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
+  const [containerRef, { height }] = useElementSize<HTMLDivElement>();
+
   const {
     data: votes,
     isLoading,
@@ -57,7 +60,7 @@ export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
   const isPending = isLoading || isFetching;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" ref={containerRef}>
       <Label className="mb-1">Vote History</Label>
       <p className="text-sm text-muted-foreground mb-4">
         Recent votes sent and received by this person
@@ -78,10 +81,8 @@ export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
             ))
           ) : votes?.length ? (
             votes
-              ?.slice(0, 5)
-              .map((vote, index) => (
-                <VoteHistoryItem key={vote.id} vote={vote} />
-              ))
+              ?.slice(0, 3)
+              .map((vote) => <VoteHistoryItem key={vote.id} vote={vote} />)
           ) : (
             <Empty>
               <EmptyHeader>

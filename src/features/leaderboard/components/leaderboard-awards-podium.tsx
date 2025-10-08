@@ -28,7 +28,7 @@ export const LeaderboardAwardsPodium = ({
       >
         {children}
       </div>
-      <div className="relative w-full h-[150px] transform-3d perspective-midrange">
+      <div className="relative w-full h-[100px] sm:h-[150px] transform-3d perspective-midrange">
         <div
           className={cn(
             "absolute top-0 left-0 w-full h-full",

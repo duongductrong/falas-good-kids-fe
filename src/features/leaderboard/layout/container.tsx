@@ -9,7 +9,7 @@ const Container = ({ className, asChild, ...props }: ContainerProps) => {
   const Comp = asChild ? Slot : "div";
 
   return (
-    <Comp {...props} className={cn("max-w-[1280px] mx-auto px-4", className)} />
+    <Comp {...props} className={cn("max-w-[1280px] mx-auto px-2 md:px-4", className)} />
   );
 };
 

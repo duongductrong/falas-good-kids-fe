@@ -47,50 +47,51 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
   return (
     <Drawer open={isShow} onOpenChange={setIsShow} variant="tray">
       <DrawerTrigger asChild>{children}</DrawerTrigger>
-      <DrawerContent className="">
+      <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Profile</DrawerTitle>
           <DrawerDescription>Your are viewing the profile.</DrawerDescription>
         </DrawerHeader>
 
+        <div className="flex flex-col lg:flex-row gap-4 px-4 pb-4">
+          <div className="flex items-center gap-4">
+            <Avatar className="size-20 border-4 border-primary">
+              <AvatarImage src={person?.avatar} />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+
+            <div className="flex flex-col justify-center">
+              <h2 className="text-2xl font-bold mb-1">{person?.realName}</h2>
+              <p className="text-sm text-muted-foreground">{person?.email}</p>
+            </div>
+          </div>
+
+          <p className="flex flex-col gap-1 lg:text-right lg:pt-4 lg:ml-auto">
+            <span className="text-sm text-muted-foreground">
+              Current ranking:
+            </span>{" "}
+            <span className="text-foreground text-lg font-bold">
+              #{person?.rank}
+            </span>
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 mb-4 px-4">
+          {Object.entries(tabs).map(([key, tabInfo]) => (
+            <Button
+              key={key}
+              variant={key === tab ? "default" : "outline"}
+              size="xs"
+              onClick={() => setTab(key as keyof typeof tabKeys)}
+            >
+              <tabInfo.icon className="size-3" />
+              {tabInfo.label}
+            </Button>
+          ))}
+        </div>
+
         <ScrollArea>
-          <div className="px-4 pb-4 flex flex-col max-h-[400px] w-full">
-            {/* <div className="h-[100px] shrink-0 bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] rounded-md"></div> */}
-            <div className="flex gap-4 px-4">
-              <Avatar className="size-20 border-4 border-primary mb-4">
-                <AvatarImage src={person?.avatar} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-
-              <div className="flex flex-col justify-center">
-                <h2 className="text-2xl font-bold mb-1">{person?.realName}</h2>
-                <p className="text-sm text-muted-foreground">{person?.email}</p>
-              </div>
-
-              <p className="ml-auto flex flex-col gap-1 text-right pt-4">
-                <span className="text-sm text-muted-foreground">
-                  Current ranking:
-                </span>{" "}
-                <span className="text-foreground text-lg font-bold">
-                  #{person?.rank}
-                </span>
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2 mb-4">
-              {Object.entries(tabs).map(([key, tabInfo]) => (
-                <Button
-                  key={key}
-                  variant={key === tab ? "default" : "outline"}
-                  size="xs"
-                  onClick={() => setTab(key as keyof typeof tabKeys)}
-                >
-                  <tabInfo.icon className="size-3" />
-                  {tabInfo.label}
-                </Button>
-              ))}
-            </div>
-
+          <div className="px-4 pb-4 flex flex-col w-full max-h-[400px]">
             {tab === tabKeys.overview && (
               <TrayProfileOverview id={Number(person?.id)} />
             )}

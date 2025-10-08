@@ -21,7 +21,7 @@ const LeaderboardPlayerRanking = ({
 }: LeaderboardPlayerRankingProps) => {
   return (
     <div {...props} className={cn("flex items-center gap-2", className)}>
-      <div className="flex flex-col text-right">
+      <div className="hidden flex-col text-right sm:flex">
         <p className="text-base font-bold text-foreground">{voteCount}</p>
         <p className="text-xs text-muted-foreground">Votes</p>
       </div>
@@ -30,7 +30,7 @@ const LeaderboardPlayerRanking = ({
         text={ranking.toString()}
         textColor={fillText}
       />
-      <div className="flex flex-col text-left">
+      <div className="hidden flex-col text-left sm:flex">
         <p className="text-base font-bold text-foreground">{winCount}</p>
         <p className="text-xs text-muted-foreground">Wins</p>
       </div>

@@ -58,8 +58,6 @@ export function TrayProfileRankingTrends({
     },
   });
 
-  console.log("trends", trends);
-
   return (
     <div className="bg-transparent">
       <Label className="mb-1">Ranking Trends</Label>
