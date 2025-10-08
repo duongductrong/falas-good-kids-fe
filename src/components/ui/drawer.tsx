@@ -111,7 +111,7 @@ function DrawerContent({
         {showCloseButton && (
           <DrawerClose asChild>
             <Button
-              className="absolute top-4 right-4 ring-offset-background"
+              className="absolute top-4 right-4 ring-offset-background z-10"
               variant="outline"
               size="icon"
               rounded="full"
