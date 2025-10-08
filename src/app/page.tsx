@@ -14,7 +14,7 @@ export default function Home() {
     <LeaderboardProvider>
       <BaseLayout className="relative pb-5 md:pb-20">
         <main className="flex justify-center">
-          <div className="pl-16 pr-8 hidden items-center justify-center lg:flex">
+          <div className="pl-16 pr-8 hidden items-center justify-center lg:flex h-screen top-0">
             <VerticalBars rotate="left" />
           </div>
 
@@ -25,7 +25,7 @@ export default function Home() {
             <LeaderboardFilter className="mb-6 md:mb-12" />
             <LeaderboardTable />
           </div>
-          <div className="pr-16 pl-8 hidden lg:flex items-center justify-center">
+          <div className="pr-16 pl-8 hidden lg:flex items-center justify-center h-screen top-0">
             <VerticalBars rotate="right" />
           </div>
         </main>
