@@ -87,8 +87,8 @@ export function TrayProfileRankingTrends({
             data={trends}
             margin={{
               top: 24,
-              left: 24,
-              right: 24,
+              left: 32,
+              right: 32,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -118,7 +118,7 @@ export function TrayProfileRankingTrends({
                 fontSize={12}
                 dataKey="ranked"
                 formatter={(val: any) =>
-                  Number(val) === 0 ? `No ranked` : `#${val}`
+                  Number(val) === 0 ? `No ranked` : `Ranked #${val}`
                 }
               />
             </Line>
