@@ -102,7 +102,6 @@ function DrawerContent({
           "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
           "data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm",
           "lg:data-[variant=tray]:max-w-xl lg:data-[variant=tray]:w-full lg:data-[variant=tray]:mx-auto lg:data-[variant=tray]:mb-4 lg:data-[variant=tray]:after:invisible lg:data-[variant=tray]:border lg:data-[variant=tray]:border-border lg:data-[variant=tray]:rounded-lg",
-          // "lg:data-[variant=tray]:mb-10"
           className
         )}
         {...props}
@@ -122,7 +121,9 @@ function DrawerContent({
             </Button>
           </DrawerClose>
         )}
-        {children}
+        <div className="max-h-[80%] overflow-auto scrollbar-hidden relative">
+          {children}
+        </div>
       </DrawerPrimitive.Content>
     </DrawerPortal>
   );
@@ -145,7 +146,10 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="drawer-footer"
-      className={cn("mt-auto flex flex-col gap-2 p-4", className)}
+      className={cn(
+        "mt-auto flex flex-col gap-2 p-4 sticky bottom-0 bg-background rounded-b-lg",
+        className
+      )}
       {...props}
     />
   );

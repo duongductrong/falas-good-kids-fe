@@ -22,6 +22,7 @@ export interface Vote {
     email: string;
     avatar?: string;
   };
+  message?: string;
 }
 
 export interface VoteTopic {

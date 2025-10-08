@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePersonVotesHistory } from "@/features/person/queries/use-person-votes-history";
-import { useElementSize } from "@/hooks/use-element-size";
 import { History } from "lucide-react";
 import { PropsWithChildren } from "react";
 
@@ -23,6 +22,7 @@ export interface VoteHistoryItem {
   type: "sent" | "received";
   category: string;
   date: string;
+  message?: string;
 }
 
 export interface TrayProfileVotesProps extends PropsWithChildren {
@@ -30,8 +30,6 @@ export interface TrayProfileVotesProps extends PropsWithChildren {
 }
 
 export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
-  const [containerRef, { height }] = useElementSize<HTMLDivElement>();
-
   const {
     data: votes,
     isLoading,
@@ -53,6 +51,7 @@ export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
         category: vote.topic?.text ?? "",
         type: Number(vote.votedBy?.id) === Number(id) ? "sent" : "received",
         date: vote.votedDate,
+        message: vote.message,
       }));
     },
   });
@@ -60,10 +59,10 @@ export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
   const isPending = isLoading || isFetching;
 
   return (
-    <div className="flex flex-col h-full" ref={containerRef}>
-      <Label className="mb-1">Vote History</Label>
+    <div className="flex flex-col h-full">
+      <Label className="mb-1">Recognition</Label>
       <p className="text-sm text-muted-foreground mb-4">
-        Recent votes sent and received by this person
+        Recent recognitions sent and received by this person
       </p>
 
       <ScrollArea className="flex-1 -mx-6 px-6">
@@ -136,9 +135,19 @@ const VoteHistoryItem = ({ vote }: VoteHistoryItemProps) => {
         <span className="font-medium text-foreground">
           {vote.person.realName}
         </span>{" "}
-        {vote.type === "received" ? "voted for" : "was recognized for"} the{" "}
+        {vote.type === "received"
+          ? "voted for"
+          : "was sent a recognition with the "}{" "}
         <span className="font-medium text-foreground">{vote.category}</span>{" "}
-        topic{" "}
+        topic {vote.type === "sent" ? "to someone" : ""}{" "}
+        {vote?.message ? "with the message" : ""}{" "}
+        {vote?.message ? (
+          <span className="font-medium text-foreground">
+            &quot;{vote.message}&quot;
+          </span>
+        ) : (
+          ""
+        )}
       </p>
 
       <div className="ml-auto flex flex-col gap-1 shrink-0 whitespace-nowrap">
