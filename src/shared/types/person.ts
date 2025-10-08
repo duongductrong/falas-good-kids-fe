@@ -6,4 +6,5 @@ export interface Person {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
+  rank?: number;
 }

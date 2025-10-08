@@ -13,7 +13,6 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Tooltip,
   TooltipContent,
@@ -21,30 +20,21 @@ import {
 } from "@/components/ui/tooltip";
 import { usePerson } from "@/features/person";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import {
-  ArrowBigUpDash,
-  Crown,
-  HandIcon,
-  History,
-  TrophyIcon,
-  UserCircle,
-} from "lucide-react";
-import Image from "next/image";
+import { ArrowBigUpDash, History, UserCircle } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
+import { tabKeys, tabs } from "../constants/tab";
+import { TrayProfileAchievements } from "./tray-profile-achievements";
+import { TrayProfileOverview } from "./tray-profile-overview";
+import { TrayProfileVotes } from "./tray-profile-votes";
 import { TrayUpvote } from "./tray-upvote";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
 
 export interface TrayProfileProps extends PropsWithChildren {
   id: number | string;
 }
 
 const TrayProfile = ({ children, id }: TrayProfileProps) => {
+  const [tab, setTab] = useState<keyof typeof tabKeys>(tabKeys.overview);
+
   const [isShow, setIsShow] = useState(false);
 
   const { data: person } = usePerson({
@@ -65,10 +55,10 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
         </DrawerHeader>
 
         <ScrollArea>
-          <div className="px-4 pb-4 flex flex-col max-h-[400px]">
-            <div className="h-[100px] shrink-0 bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] rounded-md"></div>
-            <div className="flex gap-4 translate-x-4">
-              <Avatar className="size-20 border-4 border-primary -translate-y-8">
+          <div className="px-4 pb-4 flex flex-col max-h-[400px] w-full">
+            {/* <div className="h-[100px] shrink-0 bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] rounded-md"></div> */}
+            <div className="flex gap-4 px-4">
+              <Avatar className="size-20 border-4 border-primary mb-4">
                 <AvatarImage src={person?.avatar} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
@@ -77,76 +67,41 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
                 <h2 className="text-2xl font-bold mb-1">{person?.realName}</h2>
                 <p className="text-sm text-muted-foreground">{person?.email}</p>
               </div>
+
+              <p className="ml-auto pt-4">
+                <span className="text-sm text-muted-foreground">
+                  Current ranking:
+                </span>{" "}
+                <span className="text-foreground text-lg font-bold">
+                  #{person?.rank}
+                </span>
+              </p>
             </div>
 
-            <Tabs defaultValue="votes">
-              <TabsList className="w-full mb-4">
-                <TabsTrigger value="votes">
-                  <HandIcon className="size-4 mr-1 shrink-0" />
-                  Votes
-                </TabsTrigger>
-                <TabsTrigger value="achievements" disabled>
-                  <TrophyIcon className="size-4 mr-1 shrink-0" />
-                  Achievements
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="votes" className="h-[200px]">
-                <Empty>
-                  <EmptyHeader>
-                    <EmptyMedia variant="default">
-                      <Crown className="size-4" />
-                    </EmptyMedia>
-                    <EmptyTitle>Coming Soon</EmptyTitle>
-                    <EmptyDescription>
-                      This feature is coming soon.
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-                {/* <div className="flex flex-wrap gap-8 w-full">
-                  <div className="flex flex-col items-center">
-                    <span className="text-2xl font-bold">
-                      {new Intl.NumberFormat("en-US").format(1230)}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      Total received
-                    </span>
-                  </div>
+            <div className="flex items-center gap-2 mb-4">
+              {Object.entries(tabs).map(([key, tabInfo]) => (
+                <Button
+                  key={key}
+                  variant={key === tab ? "default" : "outline"}
+                  size="xs"
+                  onClick={() => setTab(key as keyof typeof tabKeys)}
+                >
+                  <tabInfo.icon className="size-3" />
+                  {tabInfo.label}
+                </Button>
+              ))}
+            </div>
 
-                  <div className="flex flex-col items-center">
-                    <span className="text-2xl font-bold">
-                      {new Intl.NumberFormat("en-US").format(2300)}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      Total sent
-                    </span>
-                  </div>
-                </div> */}
-              </TabsContent>
-              <TabsContent value="achievements" className="h-[200px]">
-                <div className="flex flex-col gap-2">
-                  <div className="flex gap-2 items-center">
-                    <Image
-                      src="/assets/icons/badge-top-1.png"
-                      alt="Top 1"
-                      width={32}
-                      height={32}
-                    />
-                    <span className="text-sm font-bold">#1 October 2025</span>
-                  </div>
-                  <div className="flex gap-2 items-center">
-                    <Image
-                      src="/assets/icons/badge-top-2.png"
-                      alt="Top 2"
-                      width={32}
-                      height={32}
-                    />
-                    <span className="text-sm font-bold">#2 September 2025</span>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+            {tab === tabKeys.overview && (
+              <TrayProfileOverview id={Number(person?.id)} />
+            )}
+            {tab === tabKeys.votes && (
+              <TrayProfileVotes id={Number(person?.id)} />
+            )}
+            {tab === tabKeys.achievements && <TrayProfileAchievements />}
           </div>
         </ScrollArea>
+
         <DrawerFooter className="flex flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Tooltip>
