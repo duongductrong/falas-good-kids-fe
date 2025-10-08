@@ -23,7 +23,6 @@ import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { ArrowBigUpDash, History, UserCircle } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
 import { tabKeys, tabs } from "../constants/tab";
-import { TrayProfileAchievements } from "./tray-profile-achievements";
 import { TrayProfileOverview } from "./tray-profile-overview";
 import { TrayProfileVotes } from "./tray-profile-votes";
 import { TrayUpvote } from "./tray-upvote";
@@ -83,7 +82,7 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
                 <Button
                   key={key}
                   variant={key === tab ? "default" : "outline"}
-                  size="xs"
+                  size="sm"
                   onClick={() => setTab(key as keyof typeof tabKeys)}
                 >
                   <tabInfo.icon className="size-3" />
@@ -98,7 +97,6 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
             {tab === tabKeys.votes && (
               <TrayProfileVotes id={Number(person?.id)} />
             )}
-            {tab === tabKeys.achievements && <TrayProfileAchievements />}
           </div>
         </ScrollArea>
 

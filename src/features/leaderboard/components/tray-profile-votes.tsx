@@ -2,13 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
 import { usePersonVotesHistory } from "@/features/person/queries/use-person-votes-history";
-import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import { PropsWithChildren } from "react";
 
@@ -28,8 +23,12 @@ export interface TrayProfileVotesProps extends PropsWithChildren {
   id: number | string;
 }
 
-export const TrayProfileVotes = ({ id, ...props }: TrayProfileVotesProps) => {
-  const { data: votes } = usePersonVotesHistory({
+export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
+  const {
+    data: votes,
+    isLoading,
+    isFetching,
+  } = usePersonVotesHistory({
     variables: {
       id: Number(id),
     },
@@ -44,29 +43,46 @@ export const TrayProfileVotes = ({ id, ...props }: TrayProfileVotesProps) => {
           avatar: vote.votedBy?.avatar,
         },
         category: vote.topic?.text ?? "",
-        type: vote.votedBy?.id === Number(id) ? "sent" : "received",
+        type: Number(vote.votedBy?.id) === Number(id) ? "sent" : "received",
         date: vote.votedDate,
       }));
     },
   });
 
+  const isPending = isLoading || isFetching;
+
   return (
     <div className="flex flex-col h-full">
-      <Label className="mb-1">Recent votes</Label>
+      <Label className="mb-1">Vote History</Label>
       <p className="text-sm text-muted-foreground mb-4">
-        View your votes history
+        Recent votes sent and received by this person
       </p>
 
       <ScrollArea className="flex-1 -mx-6 px-6">
-        <div className="flex flex-col gap-2">
-          {votes?.slice(0, 3).map((vote, index) => (
-            <VoteHistoryItem key={vote.id} vote={vote} />
-          ))}
+        <div className="flex flex-col gap-4">
+          {isPending
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="flex items-start gap-2 w-full">
+                  <Skeleton className="size-6 rounded-full" />
+                  <div className="flex flex-col gap-2 w-full">
+                    <Skeleton className="w-[20%] h-2" />
+                    <Skeleton className="w-full h-2" />
+                    <Skeleton className="w-full h-2" />
+                  </div>
+                </div>
+              ))
+            : votes
+                ?.slice(0, 3)
+                .map((vote, index) => (
+                  <VoteHistoryItem key={vote.id} vote={vote} />
+                ))}
         </div>
 
-        <Button size="xs" variant="default" className="mt-4">
-          View all votes <ArrowRight className="size-3" />
-        </Button>
+        <div className="flex items-center justify-center">
+          <Button size="xs" variant="default" className="mt-4">
+            Load more <ArrowRight className="size-3" />
+          </Button>
+        </div>
       </ScrollArea>
     </div>
   );
@@ -93,80 +109,28 @@ const VoteHistoryItem = ({ vote }: VoteHistoryItemProps) => {
   };
 
   return (
-    <div className="flex items-start gap-3 group">
+    <div className="flex items-start gap-4 group pb-3 border-b border-border border-dashed">
       {/* Avatar */}
-      <Avatar className="size-10 shrink-0">
+      <Avatar className="size-5 shrink-0">
         <AvatarImage src={vote.person.avatar} alt={vote.person.realName} />
         <AvatarFallback className="text-xs">
           {getInitials(vote.person.realName)}
         </AvatarFallback>
       </Avatar>
 
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-0.5">
-          <p className="text-sm font-medium text-foreground truncate">
-            {vote.person.realName}
-          </p>
-        </div>
+      <p className="text-xs text-muted-foreground">
+        <span className="font-medium text-foreground">
+          {vote.person.realName}
+        </span>{" "}
+        {vote.type === "received" ? "voted for" : "was recognized for"} the{" "}
+        <span className="font-medium text-foreground">{vote.category}</span>{" "}
+        topic{" "}
+      </p>
 
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <p className="text-sm text-muted-foreground truncate max-w-[250px] cursor-help mb-1">
-              {vote.category}
-            </p>
-          </TooltipTrigger>
-          <TooltipContent side="top" className="max-w-xs">
-            <p className="text-xs">{vote.category}</p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-
-      <div className="ml-auto flex flex-col gap-1">
-        <div
-          className={cn(
-            "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium shrink-0",
-            vote.type === "sent"
-              ? "bg-chart-1/20 text-chart-1"
-              : "bg-chart-2/20 text-chart-2"
-          )}
-        >
-          {vote.type === "sent" ? (
-            <>
-              <svg
-                className="size-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7 11l5-5m0 0l5 5m-5-5v12"
-                />
-              </svg>
-              Sent
-            </>
-          ) : (
-            <>
-              <svg
-                className="size-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7 13l5 5m0 0l5-5m-5 5V6"
-                />
-              </svg>
-              Received
-            </>
-          )}
-        </div>
-        <p className="text-xs text-muted-foreground/80 text-right">{formattedDate}</p>
+      <div className="ml-auto flex flex-col gap-1 shrink-0 whitespace-nowrap">
+        <p className="text-xs text-muted-foreground/80 text-right">
+          {formattedDate}
+        </p>
       </div>
     </div>
   );

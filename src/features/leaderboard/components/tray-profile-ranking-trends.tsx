@@ -10,14 +10,7 @@ import {
 } from "@/components/ui/chart";
 import { Label } from "@/components/ui/label";
 import { useLeaderboardRankingTrend } from "../queries/use-leaderboard-ranking-trend";
-
-const chartData = [
-  { month: "Jan", label: "#1", votes: 275 },
-  { month: "Feb", label: "#3", votes: 200 },
-  { month: "Mar", label: "#10", votes: 187 },
-  { month: "Apr", label: "#2", votes: 173 },
-  { month: "May", label: "#8", votes: 90 },
-];
+import dayjs from "dayjs";
 
 const chartConfig = {} satisfies ChartConfig;
 
@@ -25,19 +18,42 @@ export interface TrayProfileRankingTrendsProps {
   id: number | string;
 }
 
-export function TrayProfileRankingTrends({ id }: TrayProfileRankingTrendsProps) {
+export function TrayProfileRankingTrends({
+  id,
+}: TrayProfileRankingTrendsProps) {
   const { data: trends } = useLeaderboardRankingTrend({
     variables: {
       id: Number(id),
     },
-    select: (resp) => resp.data || [],
+    enabled: !Number.isNaN(Number(id)),
+    select: (resp) => {
+      const items = resp.data || [];
+
+      if (items.length < 2) {
+        const item = resp.data[0];
+        const currentMonth = dayjs(`01.${item.month}`, "DD.MM.YYYY");
+
+        return [
+          {
+            month: currentMonth.subtract(2, "month").format("MM.YYYY"),
+            ranked: 0,
+            totalVotes: 0,
+          },
+          {
+            month: currentMonth.subtract(1, "month").format("MM.YYYY"),
+            ranked: 0,
+            totalVotes: 0,
+          },
+        ].concat(items);
+      }
+    },
   });
 
   return (
     <div className="bg-transparent">
-      <Label className="mb-1">Ranking Journey</Label>
+      <Label className="mb-1">Ranking Trends</Label>
       <p className="text-sm text-muted-foreground mb-2">
-        Your ranking journey over time
+        Track ranking position and total votes over the past months.
       </p>
       <ChartContainer className="w-full h-[150px]" config={chartConfig}>
         <LineChart
@@ -75,6 +91,9 @@ export function TrayProfileRankingTrends({ id }: TrayProfileRankingTrendsProps) 
               className="fill-foreground"
               fontSize={12}
               dataKey="ranked"
+              formatter={(val: any) =>
+                Number(val) === 0 ? `No ranked` : `#${val}`
+              }
             />
           </Line>
         </LineChart>
