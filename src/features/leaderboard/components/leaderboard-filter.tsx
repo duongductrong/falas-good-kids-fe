@@ -116,7 +116,7 @@ export const LeaderboardFilter = ({
                   <RadioGroup
                     value={selectedTopic}
                     onValueChange={setSelectedTopic}
-                    className="grid grid-cols-2 gap-4"
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
                     ref={ref}
                   >
                     {topics?.map((topic) => (

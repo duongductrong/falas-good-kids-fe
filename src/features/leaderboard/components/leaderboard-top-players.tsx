@@ -19,7 +19,7 @@ export const LeaderboardTopPlayers = ({
   return (
     <Container
       {...props}
-      className={cn("flex gap-16 justify-around [&>*]:w-full pt-4", className)}
+      className={cn("flex md:gap-6 lg:gap-16 justify-around [&>*]:w-full pt-4", className)}
     >
       <LeaderboardAwards player={top3Players?.[1]}>
         <LeaderboardAwardsPodium
