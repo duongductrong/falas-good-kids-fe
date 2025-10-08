@@ -1,4 +1,4 @@
-import { Target, Vote } from "lucide-react";
+import { History, Target } from "lucide-react";
 
 export const tabKeys = {
   overview: "overview",
@@ -11,7 +11,7 @@ export const tabs = {
     icon: Target,
   },
   [tabKeys.votes]: {
-    label: "Votes",
-    icon: Vote,
+    label: "Recognition History",
+    icon: History,
   },
 };

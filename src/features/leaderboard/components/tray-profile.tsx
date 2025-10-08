@@ -82,7 +82,7 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
                 <Button
                   key={key}
                   variant={key === tab ? "default" : "outline"}
-                  size="sm"
+                  size="xs"
                   onClick={() => setTab(key as keyof typeof tabKeys)}
                 >
                   <tabInfo.icon className="size-3" />
