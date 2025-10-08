@@ -8,9 +8,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Label } from "@/components/ui/label";
-import { useLeaderboardRankingTrend } from "../queries/use-leaderboard-ranking-trend";
 import dayjs from "dayjs";
+import { isEmpty, isNil } from "lodash-es";
+import { CupSoda, Telescope } from "lucide-react";
+import { useLeaderboardRankingTrend } from "../queries/use-leaderboard-ranking-trend";
 
 const chartConfig = {} satisfies ChartConfig;
 
@@ -49,55 +58,73 @@ export function TrayProfileRankingTrends({
     },
   });
 
+  console.log("trends", trends);
+
   return (
     <div className="bg-transparent">
       <Label className="mb-1">Ranking Trends</Label>
       <p className="text-sm text-muted-foreground mb-2">
         Track ranking position and total votes over the past months.
       </p>
-      <ChartContainer className="w-full h-[150px]" config={chartConfig}>
-        <LineChart
-          width={300}
-          height={150}
-          accessibilityLayer
-          data={trends}
-          margin={{
-            top: 24,
-            left: 24,
-            right: 24,
-          }}
-        >
-          <CartesianGrid vertical={false} />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator="line" nameKey="ranked" />}
-          />
-          <XAxis dataKey="month" axisLine={false} />
-          <Line
-            dataKey="totalVotes"
-            type="natural"
-            stroke="var(--chart-3)"
-            strokeWidth={2}
-            dot={{
-              fill: "var(--chart-3)",
-            }}
-            activeDot={{
-              r: 6,
+      {isNil(trends) || isEmpty(trends) ? (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia>
+              <Telescope className="size-4" />
+            </EmptyMedia>
+            <EmptyDescription>
+              This person hasn&apos;t been ranked yet. Start voting to see their
+              ranking trends!
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      ) : (
+        <ChartContainer className="w-full h-[150px]" config={chartConfig}>
+          <LineChart
+            width={300}
+            height={150}
+            accessibilityLayer
+            data={trends}
+            margin={{
+              top: 24,
+              left: 24,
+              right: 24,
             }}
           >
-            <LabelList
-              position="top"
-              offset={12}
-              className="fill-foreground"
-              fontSize={12}
-              dataKey="ranked"
-              formatter={(val: any) =>
-                Number(val) === 0 ? `No ranked` : `#${val}`
+            <CartesianGrid vertical={false} />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent indicator="line" nameKey="ranked" />
               }
             />
-          </Line>
-        </LineChart>
-      </ChartContainer>
+            <XAxis dataKey="month" axisLine={false} />
+            <Line
+              dataKey="totalVotes"
+              type="natural"
+              stroke="var(--chart-3)"
+              strokeWidth={2}
+              dot={{
+                fill: "var(--chart-3)",
+              }}
+              activeDot={{
+                r: 6,
+              }}
+            >
+              <LabelList
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
+                dataKey="ranked"
+                formatter={(val: any) =>
+                  Number(val) === 0 ? `No ranked` : `#${val}`
+                }
+              />
+            </Line>
+          </LineChart>
+        </ChartContainer>
+      )}
     </div>
   );
 }

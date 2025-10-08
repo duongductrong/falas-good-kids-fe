@@ -1,10 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+} from "@/components/ui/empty";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePersonVotesHistory } from "@/features/person/queries/use-person-votes-history";
-import { ArrowRight } from "lucide-react";
+import { History } from "lucide-react";
 import { PropsWithChildren } from "react";
 
 export interface VoteHistoryItem {
@@ -60,28 +65,36 @@ export const TrayProfileVotes = ({ id }: TrayProfileVotesProps) => {
 
       <ScrollArea className="flex-1 -mx-6 px-6">
         <div className="flex flex-col gap-4">
-          {isPending
-            ? Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="flex items-start gap-2 w-full">
-                  <Skeleton className="size-6 rounded-full" />
-                  <div className="flex flex-col gap-2 w-full">
-                    <Skeleton className="w-[20%] h-2" />
-                    <Skeleton className="w-full h-2" />
-                    <Skeleton className="w-full h-2" />
-                  </div>
+          {isPending ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="flex items-start gap-2 w-full">
+                <Skeleton className="size-6 rounded-full" />
+                <div className="flex flex-col gap-2 w-full">
+                  <Skeleton className="w-[20%] h-2" />
+                  <Skeleton className="w-full h-2" />
+                  <Skeleton className="w-full h-2" />
                 </div>
+              </div>
+            ))
+          ) : votes?.length ? (
+            votes
+              ?.slice(0, 5)
+              .map((vote, index) => (
+                <VoteHistoryItem key={vote.id} vote={vote} />
               ))
-            : votes
-                ?.slice(0, 3)
-                .map((vote, index) => (
-                  <VoteHistoryItem key={vote.id} vote={vote} />
-                ))}
-        </div>
-
-        <div className="flex items-center justify-center">
-          <Button size="xs" variant="default" className="mt-4">
-            Load more <ArrowRight className="size-3" />
-          </Button>
+          ) : (
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia>
+                  <History className="size-4" />
+                </EmptyMedia>
+                <EmptyDescription>
+                  This person hasn&apos;t sent or received any votes yet. Check
+                  back later!
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          )}
         </div>
       </ScrollArea>
     </div>
