@@ -117,7 +117,7 @@ export const LeaderboardPeriod = ({
 
           {range === LeaderboardRange.MONTHLY ? (
             <DrawerTrigger asChild>
-              <Button variant="secondary">Month: {currentMonth.format("MMMM YYYY")}</Button>
+              <Button variant="secondary">{currentMonth.format("MMMM YYYY")}</Button>
             </DrawerTrigger>
           ) : null}
         </div>
