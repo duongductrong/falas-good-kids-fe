@@ -68,7 +68,7 @@ const TrayProfile = ({ children, id }: TrayProfileProps) => {
 
           <p className="flex flex-col gap-1 lg:text-right lg:pt-4 lg:ml-auto">
             <span className="text-sm text-muted-foreground">
-              Current ranking:
+              Global ranking:
             </span>{" "}
             <span className="text-foreground text-lg font-bold">
               #{person?.rank}

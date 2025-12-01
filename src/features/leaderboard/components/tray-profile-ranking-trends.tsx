@@ -22,7 +22,6 @@ import {
   EmptyMedia,
 } from "@/components/ui/empty";
 import { Label } from "@/components/ui/label";
-import dayjs from "dayjs";
 import { isEmpty, isNil } from "lodash-es";
 import { Telescope } from "lucide-react";
 import { useLeaderboardRankingTrend } from "../queries/use-leaderboard-ranking-trend";
@@ -42,31 +41,9 @@ export function TrayProfileRankingTrends({
     },
     enabled: !Number.isNaN(Number(id)),
     select: (resp) => {
-      const items = resp.data || [];
-
-      if (items.length < 2) {
-        const item = resp.data[0];
-        const currentMonth = dayjs(`01.${item.month}`, "DD.MM.YYYY");
-
-        return [
-          {
-            month: currentMonth.subtract(2, "month").format("MM.YYYY"),
-            ranked: 0,
-            totalVotes: 0,
-          },
-          {
-            month: currentMonth.subtract(1, "month").format("MM.YYYY"),
-            ranked: 0,
-            totalVotes: 0,
-          },
-        ].concat(items);
-      }
-
-      return items;
+      return resp.data || [];
     },
   });
-
-  console.log(trends);
 
   return (
     <div className="bg-transparent">
@@ -109,7 +86,7 @@ export function TrayProfileRankingTrends({
             <YAxis reversed offset={0} axisLine={false} tick={false} />
             <XAxis dataKey="month" axisLine={false} />
             <Line
-              dataKey="totalVotes"
+              dataKey="ranked"
               type="natural"
               stroke="var(--chart-3)"
               strokeWidth={2}
@@ -127,7 +104,7 @@ export function TrayProfileRankingTrends({
                 fontSize={12}
                 dataKey="ranked"
                 formatter={(val: any) =>
-                  Number(val) === 0 ? `No ranked` : `Ranked #${val}`
+                  Number(val) === 999 ? `No ranked` : `Ranked #${val}`
                 }
               />
             </Line>

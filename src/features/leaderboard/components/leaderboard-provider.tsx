@@ -2,7 +2,7 @@
 
 import { set } from "lodash-es";
 import React, { createContext, useContext, useMemo } from "react";
-import { useDurationQuery } from "../hooks/use-duration-query";
+import { useDurationQuery } from "../../period/hooks/use-duration-query";
 import { useTopicQuery } from "../hooks/use-topic-query";
 import {
   LeaderboardRequest,

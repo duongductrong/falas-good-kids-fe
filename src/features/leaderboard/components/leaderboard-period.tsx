@@ -11,15 +11,13 @@ import {
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePeriodConfigs } from "@/features/period";
+import { usePeriodContext } from "@/features/period";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import { isEmpty, isNil } from "lodash-es";
-import { useMemo } from "react";
 import { useUpdateEffect } from "react-use";
-import { useDurationQuery } from "../hooks/use-duration-query";
 import { useRangeQuery } from "../hooks/use-range-query";
 import Container, { ContainerProps } from "../layout/container";
 import { LeaderboardRange } from "../queries";
@@ -34,34 +32,7 @@ export const LeaderboardPeriod = ({
   ...props
 }: LeaderboardPeriodProps) => {
   const [range, setRange] = useRangeQuery();
-  const [duration, setDuration] = useDurationQuery();
-
-  const { data: periodConfigsResponse } = usePeriodConfigs();
-
-  const periodConfigs = useMemo(() => {
-    if (isEmpty(periodConfigsResponse?.data)) {
-      return [];
-    }
-
-    return (periodConfigsResponse?.data || [])
-      .map((config) => {
-        const isCurrent = dayjs().isBetween(
-          dayjs(config.startDate),
-          dayjs(config.endDate),
-          null,
-          "[]"
-        );
-        return {
-          startDate: config.startDate,
-          endDate: config.endDate,
-          label: config.label,
-          isCurrent: isCurrent,
-          isFuture: !isCurrent && dayjs(config.startDate).isAfter(dayjs()),
-          isActive: duration === config.label,
-        };
-      })
-      .filter((config) => !config.isFuture);
-  }, [periodConfigsResponse?.data, duration]);
+  const { periodConfigs, duration, setDuration } = usePeriodContext();
 
   useUpdateEffect(() => {
     if (range === LeaderboardRange.ALL_TIME) {
