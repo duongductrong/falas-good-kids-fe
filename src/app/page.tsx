@@ -9,6 +9,7 @@ import {
 } from "@/features/leaderboard/";
 import { VerticalBars } from "@/features/leaderboard/components/vertical-bars";
 import { PeriodProvider } from "@/features/period";
+// import { FloatingVoteTransactions } from "@/features/vote";
 
 export default function Home() {
   return (
@@ -31,6 +32,8 @@ export default function Home() {
               <VerticalBars rotate="right" />
             </div>
           </main>
+
+          {/* <FloatingVoteTransactions /> */}
         </BaseLayout>
       </LeaderboardProvider>
     </PeriodProvider>

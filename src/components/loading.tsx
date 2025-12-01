@@ -226,7 +226,7 @@ export const SplashLoading = ({ className }: SplashLoadingProps) => {
   return (
     <div
       className={cn(
-        "w-full h-screen grid place-items-center fixed top-0 left-0 z-50 bg-background overflow-hidden",
+        "w-full h-screen grid place-items-center fixed top-0 left-0 z-[9999] bg-background overflow-hidden",
         className
       )}
     >
