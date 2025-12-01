@@ -1,4 +1,5 @@
 export * from "./components/leaderboard-announcement";
+export * from "./components/leaderboard-background";
 export * from "./components/leaderboard-filter";
 export * from "./components/leaderboard-provider";
 export * from "./components/leaderboard-ranking";
