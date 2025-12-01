@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { usePeriodConfigs } from "@/features/period";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import isBetween from "dayjs/plugin/isBetween";
 import { isEmpty, isNil } from "lodash-es";
 import { useMemo } from "react";
 import { useUpdateEffect } from "react-use";
@@ -21,9 +23,9 @@ import { useDurationQuery } from "../hooks/use-duration-query";
 import { useRangeQuery } from "../hooks/use-range-query";
 import Container, { ContainerProps } from "../layout/container";
 import { LeaderboardRange } from "../queries";
-import { useLeaderboardRange } from "../queries/use-leaderboard-range";
 
 dayjs.extend(customParseFormat);
+dayjs.extend(isBetween);
 
 export interface LeaderboardPeriodProps extends ContainerProps {}
 
@@ -34,65 +36,47 @@ export const LeaderboardPeriod = ({
   const [range, setRange] = useRangeQuery();
   const [duration, setDuration] = useDurationQuery();
 
-  const { data: leaderboardRange } = useLeaderboardRange({
-    select: (resp) => resp.data,
-  });
+  const { data: periodConfigsResponse } = usePeriodConfigs();
 
-  const currentMonth = useMemo(
-    () => dayjs(`01.${duration}`, "DD.MM.YYYY"),
-    [duration]
-  );
-
-  const months = useMemo(() => {
-    const months: {
-      month: string;
-      label: string;
-      isCurrent: boolean;
-    }[] = [];
-
-    if (!leaderboardRange?.range || leaderboardRange.range.length < 2) {
-      return months;
+  const periodConfigs = useMemo(() => {
+    if (isEmpty(periodConfigsResponse?.data)) {
+      return [];
     }
 
-    const [start, end] = leaderboardRange.range;
-
-    if (!start || !end) {
-      return months;
-    }
-
-    let startDate = dayjs(start * 1000);
-    const endDate = dayjs(end * 1000);
-
-    while (startDate.isBefore(endDate)) {
-      const isActive = startDate
-        .startOf("month")
-        .isSame(dayjs(currentMonth), "month");
-
-      months.push({
-        month: startDate.format("MM.YYYY"),
-        label: startDate.format("MMMM YYYY"),
-        isCurrent: isActive,
-      });
-
-      startDate = startDate.add(1, "month");
-    }
-
-    return months.reverse();
-  }, [leaderboardRange?.range, currentMonth]);
+    return (periodConfigsResponse?.data || [])
+      .map((config) => {
+        const isCurrent = dayjs().isBetween(
+          dayjs(config.startDate),
+          dayjs(config.endDate),
+          null,
+          "[]"
+        );
+        return {
+          startDate: config.startDate,
+          endDate: config.endDate,
+          label: config.label,
+          isCurrent: isCurrent,
+          isFuture: !isCurrent && dayjs(config.startDate).isAfter(dayjs()),
+          isActive: duration === config.label,
+        };
+      })
+      .filter((config) => !config.isFuture);
+  }, [periodConfigsResponse?.data, duration]);
 
   useUpdateEffect(() => {
+    if (range === LeaderboardRange.ALL_TIME) {
+      setDuration("");
+      return;
+    }
+
     if (
       ((range === LeaderboardRange.MONTHLY && isNil(duration)) ||
         isEmpty(duration)) &&
-      months.length
+      periodConfigs?.length > 0
     ) {
-      setDuration(months[0].month);
+      setDuration(periodConfigs[0].label);
     }
-
-    if (range === LeaderboardRange.ALL_TIME) {
-      setDuration("");
-    }
-  }, [duration, range]);
+  }, [duration, periodConfigs, range]);
 
   return (
     <Drawer variant="tray">
@@ -117,7 +101,7 @@ export const LeaderboardPeriod = ({
 
           {range === LeaderboardRange.MONTHLY ? (
             <DrawerTrigger asChild>
-              <Button variant="secondary">{currentMonth.format("MMMM YYYY")}</Button>
+              <Button variant="secondary">T{duration}</Button>
             </DrawerTrigger>
           ) : null}
         </div>
@@ -134,18 +118,19 @@ export const LeaderboardPeriod = ({
         <div className="px-4 pb-8">
           <ScrollArea className="h-[400px]">
             <div className="grid grid-cols-3 gap-3">
-              {months.map((item) => (
+              {periodConfigs?.map((periodItem) => (
                 <Button
-                  key={item.month}
-                  variant={item.isCurrent ? "default" : "outline"}
+                  key={periodItem.label}
+                  variant={periodItem.isActive ? "default" : "outline"}
                   className={cn("h-auto flex-col gap-1 py-4")}
                   onClick={() => {
-                    setDuration(item.month);
+                    setDuration(periodItem.label);
                   }}
                 >
-                  <span className="text-lg font-bold">{item.month}</span>
+                  <span className="text-lg font-bold">{periodItem.label}</span>
                   <span className="text-xs font-normal opacity-70">
-                    {item.label}
+                    {dayjs(periodItem.startDate).format("DD.MM.YYYY")} -{" "}
+                    {dayjs(periodItem.endDate).format("DD.MM.YYYY")}
                   </span>
                 </Button>
               ))}

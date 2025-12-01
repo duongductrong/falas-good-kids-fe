@@ -1,6 +1,13 @@
 "use client";
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
+import {
+  CartesianGrid,
+  LabelList,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   ChartConfig,
@@ -13,12 +20,11 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
-  EmptyTitle,
 } from "@/components/ui/empty";
 import { Label } from "@/components/ui/label";
 import dayjs from "dayjs";
 import { isEmpty, isNil } from "lodash-es";
-import { CupSoda, Telescope } from "lucide-react";
+import { Telescope } from "lucide-react";
 import { useLeaderboardRankingTrend } from "../queries/use-leaderboard-ranking-trend";
 
 const chartConfig = {} satisfies ChartConfig;
@@ -55,8 +61,12 @@ export function TrayProfileRankingTrends({
           },
         ].concat(items);
       }
+
+      return items;
     },
   });
+
+  console.log(trends);
 
   return (
     <div className="bg-transparent">
@@ -85,7 +95,7 @@ export function TrayProfileRankingTrends({
             data={trends}
             margin={{
               top: 24,
-              left: 32,
+              left: -32,
               right: 32,
             }}
           >
@@ -96,6 +106,7 @@ export function TrayProfileRankingTrends({
                 <ChartTooltipContent indicator="line" nameKey="ranked" />
               }
             />
+            <YAxis reversed offset={0} axisLine={false} tick={false} />
             <XAxis dataKey="month" axisLine={false} />
             <Line
               dataKey="totalVotes"
