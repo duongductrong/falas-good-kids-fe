@@ -1,4 +1,7 @@
-import { SplashLoading } from "@/components/loading";
+import {
+  SplashLoading,
+  SplashScreen
+} from "@/components/loading";
 import { QueryProvider } from "@/components/query";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
@@ -32,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SplashScreen minDisplayTime={1200} />
         <Suspense fallback={<SplashLoading />}>
           <QueryProvider>
             <NuqsAdapter>{children}</NuqsAdapter>
