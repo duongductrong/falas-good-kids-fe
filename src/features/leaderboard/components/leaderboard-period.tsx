@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import { isEmpty, isNil } from "lodash-es";
-import { useUpdateEffect } from "react-use";
+import { useEffect } from "react";
 import { useRangeQuery } from "../hooks/use-range-query";
 import Container, { ContainerProps } from "../layout/container";
 import { LeaderboardRange } from "../queries";
@@ -32,22 +32,22 @@ export const LeaderboardPeriod = ({
   ...props
 }: LeaderboardPeriodProps) => {
   const [range, setRange] = useRangeQuery();
-  const { periodConfigs, duration, setDuration } = usePeriodContext();
+  const { periodConfigs, currentPeriod, duration, setDuration } =
+    usePeriodContext();
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (range === LeaderboardRange.ALL_TIME) {
       setDuration("");
       return;
     }
 
-    if (
-      ((range === LeaderboardRange.MONTHLY && isNil(duration)) ||
-        isEmpty(duration)) &&
-      periodConfigs?.length > 0
-    ) {
-      setDuration(periodConfigs[0].label);
+    const isMissingDuration =
+      range === LeaderboardRange.MONTHLY && isNil(duration);
+
+    if ((isMissingDuration || isEmpty(duration)) && currentPeriod) {
+      setDuration(currentPeriod?.label);
     }
-  }, [duration, periodConfigs, range]);
+  }, [duration, currentPeriod, range, setDuration]);
 
   return (
     <Drawer variant="tray">
