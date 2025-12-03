@@ -63,9 +63,7 @@ export const LeaderboardPeriod = ({
         )}
       >
         <div className="mb-6 flex items-center flex-col md:flex-row gap-3">
-          {/* Premium Period Tabs */}
           <div className="relative flex items-center gap-1 rounded-full bg-white/[0.03] p-1 backdrop-blur-xl border border-white/[0.08] shadow-[0_0_30px_-5px_rgba(124,58,237,0.15),inset_0_1px_0_0_rgba(255,255,255,0.05)]">
-            {/* Animated glow background for active state */}
             <div
               className={cn(
                 "absolute top-1 h-[calc(100%-8px)] rounded-full transition-all duration-500 ease-out",
@@ -73,8 +71,8 @@ export const LeaderboardPeriod = ({
                 "shadow-[0_0_20px_2px_rgba(139,92,246,0.3),inset_0_1px_0_0_rgba(255,255,255,0.1)]",
                 "border border-white/10",
                 range === LeaderboardRange.ALL_TIME
-                  ? "left-1 w-[calc(50%-2px)]"
-                  : "left-[calc(50%+1px)] w-[calc(50%-2px)]"
+                  ? "left-1 w-[calc(50%-6px)]"
+                  : "left-[calc(50%+1px)] w-[calc(50%-6px)]"
               )}
             />
 
