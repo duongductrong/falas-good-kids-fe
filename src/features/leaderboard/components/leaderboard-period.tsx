@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
@@ -15,9 +16,9 @@ import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
-import { CalendarDays, ChevronDown, Infinity } from "lucide-react";
 import { isEmpty, isNil } from "lodash-es";
-import { useEffect } from "react";
+import { CalendarDays, ChevronDown, Infinity } from "lucide-react";
+import { cloneElement, ComponentProps, ReactElement, useEffect } from "react";
 import { useRangeQuery } from "../hooks/use-range-query";
 import Container, { ContainerProps } from "../layout/container";
 import { LeaderboardRange } from "../queries";
@@ -76,48 +77,25 @@ export const LeaderboardPeriod = ({
               )}
             />
 
-            <button
+            <LeaderboardPeriodButton
+              isActive={range === LeaderboardRange.ALL_TIME}
+              icon={<Infinity className="size-4 transition-all duration-300" />}
               onClick={() => handleRangeChange(LeaderboardRange.ALL_TIME)}
-              className={cn(
-                "relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
-                range === LeaderboardRange.ALL_TIME
-                  ? "text-white"
-                  : "text-white/50 hover:text-white/80"
-              )}
             >
-              <Infinity
-                className={cn(
-                  "size-4 transition-all duration-300",
-                  range === LeaderboardRange.ALL_TIME
-                    ? "text-violet-400"
-                    : "text-white/40"
-                )}
-              />
               <span>All time</span>
-            </button>
+            </LeaderboardPeriodButton>
 
-            <button
+            <LeaderboardPeriodButton
+              isActive={range === LeaderboardRange.MONTHLY}
+              icon={
+                <CalendarDays className="size-4 transition-all duration-300" />
+              }
               onClick={() => handleRangeChange(LeaderboardRange.MONTHLY)}
-              className={cn(
-                "relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
-                range === LeaderboardRange.MONTHLY
-                  ? "text-white"
-                  : "text-white/50 hover:text-white/80"
-              )}
             >
-              <CalendarDays
-                className={cn(
-                  "size-4 transition-all duration-300",
-                  range === LeaderboardRange.MONTHLY
-                    ? "text-fuchsia-400"
-                    : "text-white/40"
-                )}
-              />
               <span>Monthly</span>
-            </button>
+            </LeaderboardPeriodButton>
           </div>
 
-          {/* Monthly Period Selector Button */}
           {range === LeaderboardRange.MONTHLY ? (
             <DrawerTrigger asChild>
               <Button
@@ -147,25 +125,61 @@ export const LeaderboardPeriod = ({
           <ScrollArea className="h-[400px]">
             <div className="grid grid-cols-3 gap-3">
               {periodConfigs?.map((periodItem) => (
-                <Button
-                  key={periodItem.label}
-                  variant={periodItem.isActive ? "default" : "outline"}
-                  className={cn("h-auto flex-col gap-1 py-4")}
-                  onClick={() => {
-                    setDuration(periodItem.label);
-                  }}
-                >
-                  <span className="text-lg font-bold">{periodItem.label}</span>
-                  <span className="text-xs font-normal opacity-70">
-                    {dayjs(periodItem.startDate).format("DD.MM.YYYY")} -{" "}
-                    {dayjs(periodItem.endDate).format("DD.MM.YYYY")}
-                  </span>
-                </Button>
+                <DrawerClose key={periodItem.label} asChild>
+                  <Button
+                    variant={periodItem.isActive ? "default" : "outline"}
+                    className={cn("h-auto flex-col gap-1 py-4")}
+                    onClick={() => {
+                      setDuration(periodItem.label);
+                    }}
+                  >
+                    <span className="text-lg font-bold">
+                      {periodItem.label}
+                    </span>
+                    <span className="text-xs font-normal opacity-70">
+                      {dayjs(periodItem.startDate).format("DD.MM.YYYY")} -{" "}
+                      {dayjs(periodItem.endDate).format("DD.MM.YYYY")}
+                    </span>
+                  </Button>
+                </DrawerClose>
               ))}
             </div>
           </ScrollArea>
         </div>
       </DrawerContent>
     </Drawer>
+  );
+};
+
+export interface LeaderboardPeriodButtonProps extends ComponentProps<"button"> {
+  isActive?: boolean;
+  icon: React.ReactNode;
+}
+
+export const LeaderboardPeriodButton = ({
+  isActive,
+  icon,
+  children,
+  ...props
+}: LeaderboardPeriodButtonProps) => {
+  return (
+    <button
+      {...props}
+      className={cn(
+        "relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
+        "cursor-pointer",
+        isActive ? "text-white" : "text-white/50 hover:text-white/80"
+      )}
+    >
+      {icon &&
+        cloneElement(icon as ReactElement<ComponentProps<"svg">>, {
+          className: cn(
+            "size-4 transition-all duration-300",
+            isActive ? "text-fuchsia-400" : "text-white/40"
+          ),
+        })}
+
+      <span>{children}</span>
+    </button>
   );
 };

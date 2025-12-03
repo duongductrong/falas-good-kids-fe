@@ -1,7 +1,4 @@
-import {
-  SplashLoading,
-  SplashScreen
-} from "@/components/loading";
+import { AmanotesLoading, SplashScreen } from "@/components/loading";
 import { QueryProvider } from "@/components/query";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
@@ -36,7 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SplashScreen minDisplayTime={1200} />
-        <Suspense fallback={<SplashLoading />}>
+        <Suspense
+          fallback={
+            <AmanotesLoading className="w-full h-screen grid place-items-center fixed top-0 left-0 z-[9999] bg-background overflow-hidden" />
+          }
+        >
           <QueryProvider>
             <NuqsAdapter>{children}</NuqsAdapter>
           </QueryProvider>

@@ -218,18 +218,13 @@ export function SplashScreenFallback() {
 
   return null;
 }
-interface SplashLoadingProps {
+interface AmanotesLoadingProps {
   className?: string;
 }
 
-export const SplashLoading = ({ className }: SplashLoadingProps) => {
+export const AmanotesLoading = ({ className }: AmanotesLoadingProps) => {
   return (
-    <div
-      className={cn(
-        "w-full h-screen grid place-items-center fixed top-0 left-0 z-[9999] bg-background overflow-hidden",
-        className
-      )}
-    >
+    <div className={cn(className)}>
       <div className="flex flex-col items-center justify-center relative z-10">
         <div className="relative mb-4">
           <div
