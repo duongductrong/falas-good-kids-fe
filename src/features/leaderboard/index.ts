@@ -7,6 +7,7 @@ export * from "./components/leaderboard-table";
 export * from "./components/leaderboard-top-players";
 export * from "./components/leaderboard-period";
 export * from "./components/leaderboard-throwback";
+export * from "./components/celebration-particles";
 export * from "./components/leaderboard-monthly-history";
 
 
