@@ -7,6 +7,7 @@ import { LeaderboardAwardsPlayer } from "./leaderboard-awards-player";
 import { LeaderboardAwardsPodium } from "./leaderboard-awards-podium";
 import LeaderboardPlayerRanking from "./leaderboard-player-ranking";
 import { useLeaderboardContext } from "./leaderboard-provider";
+import { LeaderboardThrowback } from "./leaderboard-throwback";
 
 export interface LeaderboardTopPlayersProps extends ContainerProps {}
 
@@ -16,10 +17,19 @@ export const LeaderboardTopPlayers = ({
 }: LeaderboardTopPlayersProps) => {
   const { top3Players } = useLeaderboardContext();
 
+  const hasCurrentPlayers = top3Players.length > 0;
+
+  if (!hasCurrentPlayers) {
+    return <LeaderboardThrowback className={className} {...props} />;
+  }
+
   return (
     <Container
       {...props}
-      className={cn("pt-4 flex gap-4 sm:gap-6 lg:gap-10 xl:gap-16 justify-around [&>*]:w-full", className)}
+      className={cn(
+        "pt-4 flex gap-4 sm:gap-6 lg:gap-10 xl:gap-16 justify-around [&>*]:w-full",
+        className
+      )}
     >
       <LeaderboardAwards player={top3Players?.[1]}>
         <LeaderboardAwardsPodium

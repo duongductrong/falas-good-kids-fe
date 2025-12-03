@@ -62,7 +62,7 @@ export const LeaderboardPeriod = ({
           className
         )}
       >
-        <div className="mb-6 flex items-center gap-3">
+        <div className="mb-6 flex items-center flex-col md:flex-row gap-3">
           {/* Premium Period Tabs */}
           <div className="relative flex items-center gap-1 rounded-full bg-white/[0.03] p-1 backdrop-blur-xl border border-white/[0.08] shadow-[0_0_30px_-5px_rgba(124,58,237,0.15),inset_0_1px_0_0_rgba(255,255,255,0.05)]">
             {/* Animated glow background for active state */}
